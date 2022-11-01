@@ -6,6 +6,28 @@ an employee management application for Badumts GmbH
 
 # Requirements
 
+### Bundle 1:
+
+- Registration page so every employee can register itself
+- Employee must login before being able to use the application
+- Landing page as overview of existing employees
+
+### Bundle 2:
+
+- A logged in employee can add another employee
+- Ability to import employees over a CSV file
+
+### Bundle 3:
+
+- Being able to edit and delete employees
+
+### Bundle 4:
+
+- Add and display comments to employees on employee detail page
+- Display author and date of the comment
+
+---
+
 ## Backend
 
 - User
@@ -24,25 +46,6 @@ an employee management application for Badumts GmbH
   - edit
   - delete
 
-## Frontend
-
-- Landing page
-
-  - overview
-  - export btn
-
-- login page
-- detailed page
-
-  - add btn
-  - edit btn
-  - delete btn
-
-- nav bar
-  - log in/log out btn
-  - detailed page btn
-  - overview page btn
-
 ## Url plan
 
 / -> Home
@@ -53,16 +56,3 @@ an employee management application for Badumts GmbH
 /user/edit -> Edit user
 /user/delete -> Delete user
 /user/logout -> Logout
-
-## Pages
-
-- Login
-- Register
-- Dashboard (employee overview)
-- Employee detail view
-  - Comments
-- Create / Edit employee
-
-Feature
-
-- Import CSV
