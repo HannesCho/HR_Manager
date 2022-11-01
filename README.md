@@ -42,3 +42,27 @@ an employee management application for Badumts GmbH
   - log in/log out btn
   - detailed page btn
   - overview page btn
+
+## Url plan
+
+/ -> Home
+/join -> Join
+/login -> Login
+
+/user/:id -> see user
+/user/edit -> Edit user
+/user/delete -> Delete user
+/user/logout -> Logout
+
+## Pages
+
+- Login
+- Register
+- Dashboard (employee overview)
+- Employee detail view
+  - Comments
+- Create / Edit employee
+
+Feature
+
+- Import CSV
