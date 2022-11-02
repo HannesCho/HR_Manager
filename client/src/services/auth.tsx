@@ -1,15 +1,42 @@
 import axios from "axios";
 
-interface CreateUserResponse {
+enum Role {
+  Admin = 0,
+  Employee = 1,
+}
+interface CreateUserDTO {
   username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   password: string;
+  password2: string;
+  street: string;
+  housenumber: string;
+  zipcode: string;
+  city: string;
+  country: string;
 }
 
-export const createUser = async function (username: string, password: string) {
+interface CreateUserResponse {
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  street: string;
+  housenumber: string;
+  zipcode: number;
+  city: string;
+  country: string;
+  role: Role;
+}
+
+export const createUser = async function (dto: CreateUserDTO) {
   try {
     const { data } = await axios.post<CreateUserResponse>(
       "/signup",
-      { username, password },
+      { ...dto, zipcode: parseInt(dto.zipcode) },
       {
         headers: {
           "Content-Type": "application/json",
