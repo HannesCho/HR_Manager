@@ -2,15 +2,14 @@ import axios from "axios";
 
 interface CreateUserResponse {
   username: string;
+  password: string;
 }
 
-export const createUser = async function () {
+export const createUser = async function (username: string, password: string) {
   try {
     const { data } = await axios.post<CreateUserResponse>(
       "/signup",
-      {
-        name: "Hannes",
-      },
+      { username, password },
       {
         headers: {
           "Content-Type": "application/json",
@@ -18,7 +17,6 @@ export const createUser = async function () {
         },
       }
     );
-
     console.log(JSON.stringify(data, null, 4));
     return data;
   } catch (error) {

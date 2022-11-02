@@ -1,4 +1,5 @@
-import mongoose, { Document, NumberSchemaDefinition, Schema } from "mongoose";
+import bcrypt from "bcrypt";
+import mongoose, { Document, Schema } from "mongoose";
 
 enum Role {
   Admin = 0,
@@ -10,7 +11,7 @@ export interface IUser {
   // firstName: string;
   // lastName: string;
   // email: string;
-  // password: string;
+  password: string;
   // address: {
   //   street: string;
   //   houseNumber: string;
@@ -29,7 +30,7 @@ const UserSchema: Schema = new Schema({
   // firstName: { type: String, required: true },
   // lastName: { type: String, required: true },
   // email: { type: String, required: true, unique: true },
-  // password: { type: String, required: true },
+  password: { type: String, required: true },
   // address: {
   //   street: String,
   //   houseNumber: String,
@@ -39,6 +40,12 @@ const UserSchema: Schema = new Schema({
   // },
   // role: { type: Number, enum: [0, 1], default: 1, required: true },
   // comments: [{ type: String }],
+});
+
+UserSchema.pre("save", async function () {
+  console.log("Users passwords : ", this.password);
+  this.password = await bcrypt.hash(this.password, 5);
+  console.log("Hashed passwords :", this.password);
 });
 
 const User = mongoose.model<IUser>("User", UserSchema);

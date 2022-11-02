@@ -3,21 +3,13 @@ import mongoose from "mongoose";
 import User from "../models/User";
 
 export const userList = (req: Request, res: Response, next: NextFunction) => {};
-export const postSignup = (req: Request, res: Response) => {
-  //   const { userName, firstName, lastName, email, password, address, role } =
-  //     req.body;
-  console.log(req.body);
-  //   await User.create({
-  //     userName,
-  //     firstName,
-  //     lastName,
-  //     email,
-  //     password,
-  //     address,
-  //     role,
-  //   });
-  //   return res.redirect("/login");
-  res.end();
+export const postSignup = async (req: Request, res: Response) => {
+  const { username, password } = req.body;
+  await User.create({
+    username,
+    password,
+  });
+  return res.redirect("/login");
 };
 export const getSignup = (req: Request, res: Response) => res.send("Sign Up");
 export const login = (req: Request, res: Response) => res.send("Log In");

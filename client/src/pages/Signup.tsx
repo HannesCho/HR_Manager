@@ -3,10 +3,11 @@ import { createUser } from "../services/auth";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    createUser();
+    createUser(username, password);
   };
 
   return (
@@ -23,7 +24,16 @@ export default function Signup() {
               setUsername(e.currentTarget.value)
             }
           />
-
+          <br></br>
+          <label htmlFor="password">Password </label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              setPassword(e.currentTarget.value)
+            }
+          />
           <button type="submit">Sign Up</button>
         </form>
       </div>
