@@ -1,35 +1,44 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, NumberSchemaDefinition, Schema } from "mongoose";
+
+enum Role {
+  Admin = 0,
+  Employee = 1,
+}
 
 export interface IUser {
-  userName: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  address: {
-    street: string;
-    houseNumber: string;
-    postalCode: number;
-    city: string;
-    country: string;
-  };
-  role: string;
+  username: string;
+  // firstName: string;
+  // lastName: string;
+  // email: string;
+  // password: string;
+  // address: {
+  //   street: string;
+  //   houseNumber: string;
+  //   zipcode: number;
+  //   city: string;
+  //   country: string;
+  // };
+  // role: Role;
+  // comments?: Array<string>;
 }
 
 export interface IUserModel extends IUser, Document {}
 
 const UserSchema: Schema = new Schema({
-  userName: { type: String, required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true },
-  address: {
-    street: { type: String, required: true },
-    houseNumber: { type: String, required: true },
-    postalCode: { type: Number, required: true },
-    city: { type: String, required: true },
-    country: { type: String, required: true },
-  },
-  role: { type: "admin" || "user", required: true },
+  username: { type: String, required: true, unique: true },
+  // firstName: { type: String, required: true },
+  // lastName: { type: String, required: true },
+  // email: { type: String, required: true, unique: true },
+  // password: { type: String, required: true },
+  // address: {
+  //   street: String,
+  //   houseNumber: String,
+  //   postalCode: Number,
+  //   city: String,
+  //   country: String,
+  // },
+  // role: { type: Number, enum: [0, 1], default: 1, required: true },
+  // comments: [{ type: String }],
 });
 
 const User = mongoose.model<IUser>("User", UserSchema);
