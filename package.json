@@ -4,7 +4,7 @@
   "description": "an employee management application for Badumts GmbH",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js ",
+    "dev": "nodemon --exec babel-node server/server.js ",
     "test": "jest --watchAll"
   },
   "repository": {
