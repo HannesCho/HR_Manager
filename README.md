@@ -8,9 +8,9 @@ an employee management application for Badumts GmbH
 
 ### Bundle 1:
 
-- Registration page so every employee can register itself
-- Employee must login before being able to use the application
-- Landing page as overview of existing employees
+- Registration page so every employee can register itself ✅
+- Employee must login before being able to use the application ✅
+- Landing page as overview of existing employees ✅
 
 ### Bundle 2:
 

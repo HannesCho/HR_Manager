@@ -10,10 +10,10 @@ an employee management application for Badumts GmbH
 
 - Landing page
 
-  - overview
+  - overview ✅
   - export btn
 
-- login page
+- login page ✅
 - detailed page
 
   - add btn
@@ -21,15 +21,14 @@ an employee management application for Badumts GmbH
   - delete btn
 
 - nav bar
-  - log in/log out btn
-  - detailed page btn
-  - overview page btn
+  - log in/log out btn ✅
+  - user profile page btn
 
 ## Pages
 
-- Login
-- Register
-- Dashboard (employee overview)
+- Login ✅
+- Register ✅
+- Dashboard (employee overview) ✅
 - Employee detail view
   - Comments
 - Create / Edit employee

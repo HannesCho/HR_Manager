@@ -3,14 +3,19 @@ import User, { IUser } from "../models/User";
 import bcrypt from "bcrypt";
 import signJWT from "../functions/signJWT";
 
-// handle Errors
-function getErrorMessage(error: unknown) {
-  if (error instanceof Error) return error.message;
-  return String(error);
-}
-
-export const userList = (req: Request, res: Response, next: NextFunction) => {
-  res.send("LIst");
+export const userList = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const allUser = await User.find();
+    return res.status(200).json(allUser);
+  } catch (error) {
+    return res.status(400).json({
+      errorMessage: error,
+    });
+  }
 };
 
 export const postSignup = async (req: Request, res: Response) => {
@@ -102,14 +107,6 @@ export const postLogin = async (req: Request, res: Response) => {
       console.log("Unexpected error", error);
     }
   }
-};
-
-export const loggedin = (req: Request, res: Response, next: NextFunction) => {
-  res.send("user loggedin");
-};
-
-export const logout = (req: Request, res: Response, next: NextFunction) => {
-  res.send("user logged out");
 };
 
 export const editUser = (req: Request, res: Response) => res.send("Edit User");

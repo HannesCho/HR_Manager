@@ -3,8 +3,13 @@ import authHeader from "./authHeader";
 
 const API_URL = "http://localhost:4000/";
 
-export const getPublicContent = () => {
-  return axios.get(API_URL + "all");
+export const getUserList = async () => {
+  try {
+    const userList = await axios.get(API_URL);
+    return userList;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getUserBoard = () => {

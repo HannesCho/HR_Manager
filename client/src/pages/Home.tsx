@@ -1,18 +1,38 @@
-import { useContext } from "react";
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { IUser } from "../types/user.type";
 
 export default function HomePage() {
-  const userContext = useContext(UserContext);
+  const [users, setUsers] = useState<Array<IUser>>([]);
+
+  const API_URL = "http://localhost:4000/";
+  const getAllUsers = useCallback(() => {
+    axios
+      .get(API_URL)
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    getAllUsers();
+  }, [getAllUsers]);
+
   return (
     <div className="home-container">
       <div className="first-row">
         <div className="first-row-text">
           <h1>HR Manager</h1>
-          <h2>{userContext?.user?.username}</h2>
           <Link to="/list">
             <button className="main-btn">Employee List</button>
           </Link>
+          <ul>
+            {users.map((user) => {
+              return <li>{user.username}</li>;
+            })}
+          </ul>
         </div>
       </div>
       <div className="second-row">
