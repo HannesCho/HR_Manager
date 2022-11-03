@@ -7,6 +7,8 @@ import Footer from "./components/Footer";
 import { UserContext, UserContextInterface } from "./context/UserContext";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "./services/auth";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import Add from "./pages/Add";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -28,7 +30,10 @@ const App = () => {
       <UserContext.Provider value={sampleAppContext}>
         <Navbar />
         <Routes>
-          <Route path="/" element={user ? <HomePage /> : <Login />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/add" element={<Add />} />
+          </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
         </Routes>

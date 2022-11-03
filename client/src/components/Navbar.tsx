@@ -23,10 +23,10 @@ const Navbar = () => {
       </div>
       <div className="nav-right">
         <Link to="/signup">
-          <button className="nav-btn signup">Signup</button>
+          <span>Signup</span>
         </Link>
         <Link to="/login">
-          <button className="nav-btn login">Login</button>
+          <span>Login</span>
         </Link>
       </div>
     </nav>
@@ -36,13 +36,11 @@ const Navbar = () => {
         <Link to="/">Home</Link>
       </div>
       <div className="nav-right">
-        <Link to="/signup">
-          <button className="nav-btn signup">Signup</button>
+        <Link to="/add">
+          <span>Add Employee</span>
         </Link>
         <Link to="/logout">
-          <button className="nav-btn logout" onClick={() => handelLogout()}>
-            Log out
-          </button>
+          <span onClick={() => handelLogout()}>Log out</span>
         </Link>
       </div>
     </nav>
