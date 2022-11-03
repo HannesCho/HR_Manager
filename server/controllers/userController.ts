@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import mongoose from "mongoose";
-import User from "../models/User";
+import User, { IUser } from "../models/User";
+import bcrypt from "bcrypt";
+import signJWT from "../functions/signJWT";
 
 // handle Errors
 function getErrorMessage(error: unknown) {
@@ -8,7 +9,9 @@ function getErrorMessage(error: unknown) {
   return String(error);
 }
 
-export const userList = (req: Request, res: Response, next: NextFunction) => {};
+export const userList = (req: Request, res: Response, next: NextFunction) => {
+  res.send("LIst");
+};
 
 export const postSignup = async (req: Request, res: Response) => {
   const {
@@ -23,6 +26,7 @@ export const postSignup = async (req: Request, res: Response) => {
     zipcode,
     city,
     country,
+    role,
   } = req.body;
 
   if (password !== password2) {
@@ -38,7 +42,7 @@ export const postSignup = async (req: Request, res: Response) => {
     });
   }
   try {
-    await User.create({
+    const createdUser = await User.create({
       username,
       password,
       firstName,
@@ -49,17 +53,65 @@ export const postSignup = async (req: Request, res: Response) => {
       zipcode,
       city,
       country,
+      role,
     });
-    return res.redirect("/login");
+    res.status(200).json({ createdUser });
   } catch (error) {
     return res.status(400).json({
       errorMessage: error,
     });
   }
 };
-export const getSignup = (req: Request, res: Response) => res.send("Sign Up");
-export const login = (req: Request, res: Response) => res.send("Log In");
-export const logout = (req: Request, res: Response) => res.send("Log Out");
+
+export const postLogin = async (req: Request, res: Response) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  if (!user) {
+    return res.status(400).json({
+      errorMessage: "An account with this username does not exists.",
+    });
+  }
+  try {
+    const ok = await bcrypt.compare(password, user.password);
+    if (!ok) {
+      return res.status(400).json({
+        errorMessage: "Wrong password",
+      });
+    } else {
+      signJWT(user, (error, token) => {
+        if (error) {
+          return res.status(500).json({
+            message: error.message,
+            error: error,
+          });
+        } else if (token) {
+          return res.status(200).json({
+            message: "Auth successful",
+            token: token,
+            user: user,
+          });
+        }
+      });
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        error,
+      });
+    } else {
+      console.log("Unexpected error", error);
+    }
+  }
+};
+
+export const loggedin = (req: Request, res: Response, next: NextFunction) => {
+  res.send("user loggedin");
+};
+
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+  res.send("user logged out");
+};
+
 export const editUser = (req: Request, res: Response) => res.send("Edit User");
 export const deleteUser = (req: Request, res: Response) =>
   res.send("Delete User");

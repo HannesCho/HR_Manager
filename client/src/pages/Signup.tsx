@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { createUser } from "../services/auth";
+import { useNavigate } from "react-router-dom";
 
-export default function Signup() {
+const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -13,10 +14,12 @@ export default function Signup() {
   const [zipcode, setZipcode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [role, setRole] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    createUser({
+    await createUser({
       username,
       password,
       password2,
@@ -28,7 +31,9 @@ export default function Signup() {
       zipcode,
       city,
       country,
+      role,
     });
+    navigate("/");
   };
 
   return (
@@ -146,9 +151,21 @@ export default function Signup() {
             }
           />
           <br></br>
+          <label htmlFor="role">Role </label>
+          <input
+            type="text"
+            name="role"
+            value={role}
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              setRole(e.currentTarget.value)
+            }
+          />
+          <br></br>
           <button type="submit">Sign Up</button>
         </form>
       </div>
     </>
   );
-}
+};
+
+export default Signup;

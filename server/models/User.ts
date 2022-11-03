@@ -1,11 +1,6 @@
 import bcrypt from "bcrypt";
 import mongoose, { Document, Schema } from "mongoose";
 
-enum Role {
-  Admin = 0,
-  Employee = 1,
-}
-
 export interface IUser {
   username: string;
   firstName: string;
@@ -17,7 +12,8 @@ export interface IUser {
   zipcode: number;
   city: string;
   country: string;
-  role: Role;
+  role: string;
+  admin: boolean;
   comments?: Array<string>;
 }
 
@@ -34,7 +30,8 @@ const UserSchema: Schema = new Schema({
   zipcode: Number,
   city: String,
   country: String,
-  role: { type: Number, enum: [0, 1], default: 1, required: true },
+  role: { type: String, required: true },
+  admin: { type: Boolean, default: false, required: true },
   comments: [{ type: String }],
 });
 

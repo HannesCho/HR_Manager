@@ -1,41 +1,22 @@
 import axios from "axios";
+import { IUser } from "../types/user.type";
 
-enum Role {
-  Admin = 0,
-  Employee = 1,
-}
-interface CreateUserDTO {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+const API_URL = "http://localhost:4000/";
+
+interface CreateUserDTO extends IUser {
   password2: string;
-  street: string;
-  housenumber: string;
-  zipcode: string;
-  city: string;
-  country: string;
 }
 
-interface CreateUserResponse {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  street: string;
-  housenumber: string;
-  zipcode: number;
-  city: string;
-  country: string;
-  role: Role;
+interface LoginResponse {
+  user: IUser;
+  token: string;
+  message: string;
 }
 
 export const createUser = async function (dto: CreateUserDTO) {
   try {
-    const { data } = await axios.post<CreateUserResponse>(
-      "/signup",
+    const { data } = await axios.post<IUser>(
+      API_URL + "signup",
       { ...dto, zipcode: parseInt(dto.zipcode) },
       {
         headers: {
@@ -44,7 +25,6 @@ export const createUser = async function (dto: CreateUserDTO) {
         },
       }
     );
-    console.log(JSON.stringify(data, null, 4));
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -55,4 +35,45 @@ export const createUser = async function (dto: CreateUserDTO) {
       return "An unexpected error occurred";
     }
   }
+};
+
+export const login = async (username: string, password: string) => {
+  try {
+    const { data } = await axios.post<LoginResponse>(
+      API_URL + "login",
+      { username, password },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+    if (data) {
+      console.log(data);
+      localStorage.setItem("accessTocken", JSON.stringify(data.token));
+      localStorage.setItem("user", JSON.stringify(data.user));
+    }
+    return data.user;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log("error: ", error.message);
+      return error.message;
+    } else {
+      console.log("unexpected error: ", error);
+      return "An unexpected error occurred";
+    }
+  }
+};
+
+export const logout = async () => {
+  localStorage.removeItem("accessTocken");
+  localStorage.removeItem("user");
+};
+
+export const getCurrentUser = () => {
+  const userStr = localStorage.getItem("user");
+  if (userStr) return JSON.parse(userStr);
+
+  return null;
 };

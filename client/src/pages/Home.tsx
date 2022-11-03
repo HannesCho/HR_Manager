@@ -1,14 +1,17 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 export default function HomePage() {
+  const userContext = useContext(UserContext);
   return (
     <div className="home-container">
       <div className="first-row">
         <div className="first-row-text">
-          <h1>Welcome to MyReS</h1>
-          <h2>My Recipe Scrapbook</h2>
-          <Link to="/recipes">
-            <button className="main-btn">Find your recipes</button>
+          <h1>HR Manager</h1>
+          <h2>{userContext?.user?.username}</h2>
+          <Link to="/list">
+            <button className="main-btn">Employee List</button>
           </Link>
         </div>
       </div>
