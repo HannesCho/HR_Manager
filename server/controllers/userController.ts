@@ -90,6 +90,7 @@ export const postLogin = async (req: Request, res: Response) => {
             error: error,
           });
         } else if (token) {
+          res.locals.token = token;
           return res.status(200).json({
             message: "Auth successful",
             token: token,
@@ -109,8 +110,17 @@ export const postLogin = async (req: Request, res: Response) => {
   }
 };
 
-export const editUser = (req: Request, res: Response) => res.send("Edit User");
+export const editUser = (req: Request, res: Response) => {};
 export const deleteUser = (req: Request, res: Response) =>
   res.send("Delete User");
-export const userProfile = (req: Request, res: Response) =>
-  res.send("User Detail");
+
+export const userProfile = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.params.id);
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(400).json({
+      errorMessage: error,
+    });
+  }
+};

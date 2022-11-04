@@ -1,15 +1,18 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import authHeader from "../services/authHeader";
 import { IUser } from "../types/user.type";
 
 export default function HomePage() {
   const [users, setUsers] = useState<Array<IUser>>([]);
+  const navigation = useNavigate();
 
   const API_URL = "http://localhost:4000/";
   const getAllUsers = useCallback(() => {
     axios
-      .get(API_URL)
+      .get(API_URL, { headers: authHeader() })
       .then((res) => {
         setUsers(res.data);
       })
@@ -46,7 +49,7 @@ export default function HomePage() {
       const a = document.createElement("a");
       a.setAttribute("hidden", "");
       a.setAttribute("href", url);
-      a.setAttribute("download", "ListOfEmployee.csv");
+      a.setAttribute("download", "ListOfEmployees.csv");
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -66,6 +69,7 @@ export default function HomePage() {
     console.log(csvData);
     download(csvData);
   };
+
   return (
     <div className="home-container">
       <h1>HR Manager</h1>
@@ -75,7 +79,12 @@ export default function HomePage() {
 
       <ul>
         {users.map((user) => {
-          return <li>{user.username}</li>;
+          return (
+            <>
+              <li key={user._id}>{user.username}</li>
+              <Link to={`/${user._id}`}>details</Link>
+            </>
+          );
         })}
       </ul>
     </div>

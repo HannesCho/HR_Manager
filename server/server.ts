@@ -1,4 +1,5 @@
 import "./db";
+import "./models/User";
 import "./models/Comment";
 import express from "express";
 import cors from "cors";

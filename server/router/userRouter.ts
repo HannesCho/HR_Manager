@@ -7,8 +7,8 @@ import {
 
 const userRouter = express.Router();
 
-userRouter.use("/edit", editUser);
+userRouter.patch("/edit", editUser);
 userRouter.use("/delete", deleteUser);
-userRouter.use("/:id", userProfile);
+userRouter.get("/:id", userProfile);
 
 export default userRouter;

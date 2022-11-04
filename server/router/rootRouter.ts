@@ -1,5 +1,6 @@
 import express from "express";
 import { userList, postLogin, postSignup } from "../controllers/userController";
+import extractJWT from "../middleware/extractJWT";
 
 const rootRouter = express.Router();
 

@@ -1,5 +1,4 @@
-import e from "express";
-import { SyntheticEvent, useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { logout } from "../services/auth";
@@ -39,7 +38,7 @@ const Navbar = () => {
         <Link to="/add">
           <span>Add Employee</span>
         </Link>
-        <Link to="/logout">
+        <Link to="/">
           <span onClick={() => handelLogout()}>Log out</span>
         </Link>
       </div>
