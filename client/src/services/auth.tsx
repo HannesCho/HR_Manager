@@ -51,7 +51,8 @@ export const login = async (username: string, password: string) => {
     );
     if (data) {
       console.log(data);
-      localStorage.setItem("accessTocken", JSON.stringify(data.token));
+      localStorage.setItem("accessTocken", data.token);
+      // TODO: Remove storing user and replaced with GET /user
       localStorage.setItem("user", JSON.stringify(data.user));
     }
     return data.user;
@@ -72,6 +73,7 @@ export const logout = async () => {
 };
 
 export const getCurrentUser = () => {
+  // TODO: Remove storing user and replaced with GET /user
   const userStr = localStorage.getItem("user");
   if (userStr) return JSON.parse(userStr);
 

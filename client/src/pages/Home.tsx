@@ -1,22 +1,18 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import authHeader from "../services/authHeader";
 import { IUser } from "../types/user.type";
-
+import { getUserList } from "../services/user.service";
 export default function HomePage() {
   const [users, setUsers] = useState<Array<IUser>>([]);
-  const navigation = useNavigate();
 
-  const API_URL = "http://localhost:4000/";
-  const getAllUsers = useCallback(() => {
-    axios
-      .get(API_URL, { headers: authHeader() })
-      .then((res) => {
-        setUsers(res.data);
-      })
-      .catch((error) => console.log(error));
+  const getAllUsers = useCallback(async () => {
+    try {
+      const response = await getUserList();
+      setUsers(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   useEffect(() => {

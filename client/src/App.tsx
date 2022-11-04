@@ -11,16 +11,15 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import Add from "./pages/Add";
 import Profile from "./pages/Profile";
 import Edit from "./pages/Edit";
+import { IUser } from "./types/user.type";
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<IUser | null>(null);
+  const currentUser = getCurrentUser();
 
-  useEffect(() => {
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-      setUser(currentUser);
-    }
-  }, [user]);
+  if (currentUser && !user) {
+    setUser(currentUser);
+  }
 
   const sampleAppContext: UserContextInterface = {
     user,

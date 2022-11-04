@@ -40,7 +40,6 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit">Log In</button>
-          {/* {message && <h3 className="message">{message}</h3>} */}
         </form>
       </div>
     </>

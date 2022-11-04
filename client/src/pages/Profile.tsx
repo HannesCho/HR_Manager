@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { IUser } from "../types/user.type";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const Profile = () => {
+  const userContext = useContext(UserContext);
+
   const { id } = useParams();
   const navigation = useNavigate();
   const API_URL = "http://localhost:4000/user/";
   const [profileUser, setProfileUser] = useState<IUser | null>();
+
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     axios
@@ -27,6 +32,11 @@ const Profile = () => {
         navigation("/");
       })
       .catch((error) => console.log(error));
+  };
+
+  const handleSubmit = (e: SyntheticEvent) => {
+    //get logged in user
+    e.preventDefault();
   };
   return (
     <>
@@ -51,6 +61,18 @@ const Profile = () => {
       >
         Delete
       </button>
+      <h2>Comment Section</h2>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="comment">Your Comment: </label>
+          <textarea
+            name="comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <button type="submit">Write Comment</button>
+        </form>
+      </div>
     </>
   );
 };

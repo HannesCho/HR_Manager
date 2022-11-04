@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import mongoose, { Document, Schema } from "mongoose";
+import { IComment } from "./Comment";
 
 export interface IUser {
   username: string;
@@ -14,7 +15,7 @@ export interface IUser {
   country: string;
   role: string;
   admin: boolean;
-  comments?: Array<string>;
+  comments?: Array<IComment>;
 }
 
 export interface IUserModel extends IUser, Document {}
@@ -41,6 +42,6 @@ UserSchema.pre("save", async function () {
   console.log("Hashed passwords :", this.password);
 });
 
-const User = mongoose.model<IUser>("User", UserSchema);
+const User = mongoose.model<IUserModel>("User", UserSchema);
 
 export default User;

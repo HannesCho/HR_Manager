@@ -4,7 +4,7 @@ import extractJWT from "../middleware/extractJWT";
 
 const rootRouter = express.Router();
 
-rootRouter.get("/", userList);
+rootRouter.get("/", extractJWT, userList);
 rootRouter.post("/signup", postSignup);
 rootRouter.post("/login", postLogin);
 

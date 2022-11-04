@@ -7,6 +7,7 @@ import morgan from "morgan";
 import config from "./config/config";
 import rootRouter from "./router/rootRouter";
 import userRouter from "./router/userRouter";
+import commentRouter from "./router/commentRouter";
 
 const app = express();
 const logger = morgan("dev");
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", rootRouter);
 app.use("/user", userRouter);
+app.use("/comment", commentRouter);
 
 const handleListening = () =>
   console.log(
