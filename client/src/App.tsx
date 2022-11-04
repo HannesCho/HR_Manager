@@ -10,6 +10,7 @@ import { getCurrentUser } from "./services/auth";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Add from "./pages/Add";
 import Profile from "./pages/Profile";
+import Edit from "./pages/Edit";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -35,6 +36,7 @@ const App = () => {
             <Route element={<ProtectedRoutes />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/add" element={<Add />} />
+              <Route path="/edit/:id" element={<Edit />} />
               <Route path="/:id" element={<Profile />} />
             </Route>
             <Route path="/signup" element={<Signup />} />

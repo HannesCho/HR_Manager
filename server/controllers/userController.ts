@@ -110,14 +110,54 @@ export const postLogin = async (req: Request, res: Response) => {
   }
 };
 
-export const editUser = (req: Request, res: Response) => {};
-export const deleteUser = (req: Request, res: Response) =>
-  res.send("Delete User");
-
 export const userProfile = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id);
     return res.status(200).json(user);
+  } catch (error) {
+    return res.status(400).json({
+      errorMessage: error,
+    });
+  }
+};
+export const editUser = async (req: Request, res: Response) => {
+  const {
+    username,
+    firstName,
+    lastName,
+    email,
+    street,
+    housenumber,
+    zipcode,
+    city,
+    country,
+    role,
+  } = req.body;
+
+  try {
+    const editedUser = await User.findByIdAndUpdate(req.params.id, {
+      username,
+      firstName,
+      lastName,
+      email,
+      street,
+      housenumber,
+      zipcode,
+      city,
+      country,
+      role,
+    });
+    return res.status(200).json(editedUser);
+  } catch (error) {
+    return res.status(400).json({
+      errorMessage: error,
+    });
+  }
+};
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    return res.status(200).json(deletedUser);
   } catch (error) {
     return res.status(400).json({
       errorMessage: error,

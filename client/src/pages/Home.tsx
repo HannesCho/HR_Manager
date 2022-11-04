@@ -83,6 +83,7 @@ export default function HomePage() {
             <>
               <li key={user._id}>{user.username}</li>
               <Link to={`/${user._id}`}>details</Link>
+              <Link to={`edit/${user._id}`}>edit</Link>
             </>
           );
         })}

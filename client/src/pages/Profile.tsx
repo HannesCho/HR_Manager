@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { IUser } from "../types/user.type";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { id } = useParams();
+  const navigation = useNavigate();
   const API_URL = "http://localhost:4000/user/";
   const [profileUser, setProfileUser] = useState<IUser | null>();
 
@@ -17,6 +19,15 @@ const Profile = () => {
       .catch((error) => console.log(error));
   }, [id, setProfileUser]);
 
+  const handleDelete = () => {
+    axios
+      .delete(API_URL + `${id}`)
+      .then((res) => {
+        console.log(res.data);
+        navigation("/");
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <>
       <div className="Profile-container">
@@ -32,6 +43,14 @@ const Profile = () => {
         <p>{profileUser?.country}</p>
         <p>{profileUser?.role}</p>
       </div>
+      <Link to={`/edit/${id}`}>Edit</Link>
+      <button
+        onClick={() => {
+          handleDelete();
+        }}
+      >
+        Delete
+      </button>
     </>
   );
 };
