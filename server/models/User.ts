@@ -33,13 +33,7 @@ const UserSchema: Schema = new Schema({
   country: String,
   role: { type: String, required: true },
   admin: { type: Boolean, default: false, required: true },
-  comments: [{ type: String }],
-});
-
-UserSchema.pre("save", async function () {
-  console.log("Users passwords : ", this.password);
-  this.password = await bcrypt.hash(this.password, 5);
-  console.log("Hashed passwords :", this.password);
+  comments: [{ type: Object }],
 });
 
 const User = mongoose.model<IUserModel>("User", UserSchema);

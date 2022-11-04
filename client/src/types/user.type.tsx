@@ -13,5 +13,5 @@ export interface IUser {
   city: string;
   country: string;
   role: string;
-  comment?: Array<IComment>;
+  comments?: Array<IComment>;
 }

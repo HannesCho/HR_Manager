@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import authHeader from "../services/authHeader";
 import { IUser } from "../types/user.type";
 
 const Edit = () => {
@@ -34,7 +35,7 @@ const Edit = () => {
   }, [thisUser]);
   useEffect(() => {
     axios
-      .get(API_URL + `${id}`)
+      .get(API_URL + `${id}`, { headers: authHeader() })
       .then((res) => {
         setThisUser(res.data);
       })
@@ -44,6 +45,7 @@ const Edit = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await axios.put(API_URL + `edit/${id}`, {
+      headers: authHeader(),
       username,
       firstName,
       lastName,

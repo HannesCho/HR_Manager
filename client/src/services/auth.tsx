@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IUser } from "../types/user.type";
+import authHeader from "./authHeader";
 
 const API_URL = "http://localhost:4000/";
 
@@ -52,8 +53,6 @@ export const login = async (username: string, password: string) => {
     if (data) {
       console.log(data);
       localStorage.setItem("accessTocken", data.token);
-      // TODO: Remove storing user and replaced with GET /user
-      localStorage.setItem("user", JSON.stringify(data.user));
     }
     return data.user;
   } catch (error) {
@@ -72,10 +71,11 @@ export const logout = async () => {
   localStorage.removeItem("user");
 };
 
-export const getCurrentUser = () => {
-  // TODO: Remove storing user and replaced with GET /user
-  const userStr = localStorage.getItem("user");
-  if (userStr) return JSON.parse(userStr);
+export const getCurrentUser = async () => {
+  const userStr = await axios.get(API_URL + "user", {
+    headers: authHeader(),
+  });
+  if (userStr) return userStr;
 
   return null;
 };

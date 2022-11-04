@@ -6,11 +6,6 @@ const signJWT = (
   user: IUser,
   callback: (error: Error | null, token: string | null) => void
 ): void => {
-  let timeSinceEpoch = new Date().getTime();
-  let expirationTime =
-    timeSinceEpoch + Number(config.server.token.expireTime) * 100000;
-  let expirationTimeInSeconds = Math.floor(expirationTime / 1000);
-
   try {
     jwt.sign(
       {
@@ -20,7 +15,7 @@ const signJWT = (
       {
         issuer: config.server.token.issuer,
         algorithm: "HS256",
-        expiresIn: expirationTimeInSeconds,
+        expiresIn: "2h",
       },
       (error, token) => {
         if (error) {

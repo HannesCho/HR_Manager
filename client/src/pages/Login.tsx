@@ -8,7 +8,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const userContext = useContext(UserContext);
   const navigation = useNavigate();
-
+  if (userContext?.user) {
+    navigation("/");
+  }
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     try {

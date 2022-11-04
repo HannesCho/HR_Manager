@@ -17,10 +17,6 @@ export const getUserList = () => {
   return axios.get<IUser[]>(API_URL, { headers: authHeader() });
 };
 
-export const getUserBoard = () => {
-  return axios.get(API_URL + "user", { headers: authHeader() });
-};
-
 export const getModeratorBoard = () => {
   return axios.get(API_URL + "mod", { headers: authHeader() });
 };

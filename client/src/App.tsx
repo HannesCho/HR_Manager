@@ -5,7 +5,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
 import { UserContext, UserContextInterface } from "./context/UserContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getCurrentUser } from "./services/auth";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Add from "./pages/Add";
@@ -15,11 +15,19 @@ import { IUser } from "./types/user.type";
 
 const App = () => {
   const [user, setUser] = useState<IUser | null>(null);
-  const currentUser = getCurrentUser();
 
-  if (currentUser && !user) {
-    setUser(currentUser);
-  }
+  const setCurrentUser = useCallback(async () => {
+    try {
+      const response = await getCurrentUser();
+      setUser(response?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!user) setCurrentUser();
+  }, [setCurrentUser, user]);
 
   const sampleAppContext: UserContextInterface = {
     user,

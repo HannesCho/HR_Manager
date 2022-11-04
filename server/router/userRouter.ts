@@ -3,12 +3,15 @@ import {
   editUser,
   deleteUser,
   userProfile,
+  loggedInUser,
 } from "../controllers/userController";
+import extractJWT from "../middleware/extractJWT";
 
 const userRouter = express.Router();
 
-userRouter.get("/:id", userProfile);
-userRouter.delete("/:id", deleteUser);
-userRouter.put("/edit/:id", editUser);
+userRouter.get("/", extractJWT, loggedInUser);
+userRouter.get("/:id", extractJWT, userProfile);
+userRouter.delete("/:id", extractJWT, deleteUser);
+userRouter.put("/edit/:id", extractJWT, editUser);
 
 export default userRouter;

@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import User, { IUser } from "../models/User";
 import bcrypt from "bcrypt";
 import signJWT from "../functions/signJWT";
+import config from "../config/config";
 
 export const userList = async (
   req: Request,
@@ -46,10 +48,12 @@ export const postSignup = async (req: Request, res: Response) => {
       errorMessage: "This username/email is already taken.",
     });
   }
+
+  const hashedPassword = await bcrypt.hash(password, 5);
   try {
     const createdUser = await User.create({
       username,
-      password,
+      password: hashedPassword,
       firstName,
       lastName,
       email,
@@ -161,6 +165,34 @@ export const deleteUser = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(400).json({
       errorMessage: error,
+    });
+  }
+};
+
+interface decodedJWT {
+  username: string;
+}
+export const loggedInUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let token = req.headers.authorization?.split(" ")[1];
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, config.server.token.secret);
+      const currentUserName = (decoded as decodedJWT).username;
+      const currentUser = await User.findOne({ username: currentUserName });
+      return res.status(200).json(currentUser);
+    } catch (error) {
+      return res.status(404).json({
+        message: error,
+        error,
+      });
+    }
+  } else {
+    return res.status(401).json({
+      message: "Unauthorized",
     });
   }
 };

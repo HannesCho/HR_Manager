@@ -4,6 +4,8 @@ import axios from "axios";
 import { IUser } from "../types/user.type";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import authHeader from "../services/authHeader";
+import { IComment } from "../types/comment.type";
 
 const Profile = () => {
   const userContext = useContext(UserContext);
@@ -14,10 +16,14 @@ const Profile = () => {
   const [profileUser, setProfileUser] = useState<IUser | null>();
 
   const [comment, setComment] = useState("");
-
+  const [comments, setComments] = useState<IComment[] | null | undefined>([]);
+  useEffect(() => {
+    setComments(profileUser?.comments);
+    console.log(profileUser?.comments);
+  }, [setComments, profileUser]);
   useEffect(() => {
     axios
-      .get(API_URL + `${id}`)
+      .get(API_URL + `${id}`, { headers: authHeader() })
       .then((res) => {
         setProfileUser(res.data);
       })
@@ -26,7 +32,7 @@ const Profile = () => {
 
   const handleDelete = () => {
     axios
-      .delete(API_URL + `${id}`)
+      .delete(API_URL + `${id}`, { headers: authHeader() })
       .then((res) => {
         console.log(res.data);
         navigation("/");
@@ -35,9 +41,20 @@ const Profile = () => {
   };
 
   const handleSubmit = (e: SyntheticEvent) => {
-    //get logged in user
     e.preventDefault();
+    //get logged in user
+    console.log(userContext?.user);
+    //     userid
+    // text
+    // createdAt
+    // author
+    // axios
+    //       .post(API_URL + `${id}`, { headers: authHeader() })
+    //       .then((res) => {
+    //         console.log(res.data);
+    //         navigation("/");
   };
+
   return (
     <>
       <div className="Profile-container">
@@ -72,6 +89,23 @@ const Profile = () => {
           />
           <button type="submit">Write Comment</button>
         </form>
+      </div>
+      <div style={{ height: "100px" }}>
+        <ul>
+          {comments ? (
+            comments.map((comment, i) => {
+              return (
+                <li key={i}>
+                  <p>{comment.author}</p>
+                  <p>{comment.text}</p>
+                  <p>{comment.createdAt}</p>
+                </li>
+              );
+            })
+          ) : (
+            <div></div>
+          )}
+        </ul>
       </div>
     </>
   );
