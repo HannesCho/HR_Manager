@@ -12,18 +12,18 @@ const Profile = () => {
 
   const { id } = useParams();
   const navigation = useNavigate();
-  const API_URL = "http://localhost:4000/user/";
+  const API_URL = "http://localhost:4000/";
   const [profileUser, setProfileUser] = useState<IUser | null>();
 
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<IComment[] | null | undefined>([]);
   useEffect(() => {
     setComments(profileUser?.comments);
-    console.log(profileUser?.comments);
   }, [setComments, profileUser]);
+
   useEffect(() => {
     axios
-      .get(API_URL + `${id}`, { headers: authHeader() })
+      .get(API_URL + `user/${id}`, { headers: authHeader() })
       .then((res) => {
         setProfileUser(res.data);
       })
@@ -32,7 +32,7 @@ const Profile = () => {
 
   const handleDelete = () => {
     axios
-      .delete(API_URL + `${id}`, { headers: authHeader() })
+      .delete(API_URL + `user/${id}`, { headers: authHeader() })
       .then((res) => {
         console.log(res.data);
         navigation("/");
@@ -42,17 +42,18 @@ const Profile = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    //get logged in user
-    console.log(userContext?.user);
-    //     userid
-    // text
-    // createdAt
-    // author
-    // axios
-    //       .post(API_URL + `${id}`, { headers: authHeader() })
-    //       .then((res) => {
-    //         console.log(res.data);
-    //         navigation("/");
+    axios
+      .post(API_URL + "comment", {
+        headers: authHeader(),
+        username: profileUser?.username,
+        text: comment,
+        author: userContext?.user?.username,
+      })
+      .then((res) => {
+        console.log(res.data);
+        navigation(`/`);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (

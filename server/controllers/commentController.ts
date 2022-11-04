@@ -14,7 +14,7 @@ export const createComment = async (req: Request, res: Response) => {
     const addCommentToUser = await User.findOne({ username });
     addCommentToUser?.comments?.push(createdComment);
     addCommentToUser?.save();
-    return res.status(200).json({ createComment });
+    return res.status(200).json({ createdComment });
   } catch (error) {
     return res.status(400).json({
       errorMessage: error,
