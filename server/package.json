@@ -5,8 +5,9 @@
   "main": "server/server.ts",
   "scripts": {
     "build": "rm -rf build/ && tsc",
-    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' server/server.ts",
-    "test": "jest --watchAll"
+    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/server.ts",
+    "test": "jest --watchAll",
+    "start": "npx ts-node src/server.ts"
   },
   "repository": {
     "type": "git",

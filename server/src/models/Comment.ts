@@ -1,11 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-
-export interface IComment {
-  username: string;
-  text: string;
-  createdAt: string;
-  author: string;
-}
+import { IComment } from "../types/model.type";
 
 export interface ICommentModel extends IComment, Document {}
 
