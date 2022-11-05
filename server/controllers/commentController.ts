@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import Comment from "../models/Comment";
 import User from "../models/User";
 
 export const createComment = async (req: Request, res: Response) => {
-  const { username, text, createdAt, author } = req.body;
+  const { username, text, author } = req.body;
 
   try {
     const createdComment = await Comment.create({
@@ -11,6 +11,7 @@ export const createComment = async (req: Request, res: Response) => {
       text,
       author,
     });
+
     const addCommentToUser = await User.findOne({ username });
     addCommentToUser?.comments?.push(createdComment);
     addCommentToUser?.save();

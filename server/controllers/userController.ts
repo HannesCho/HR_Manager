@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import User, { IUser } from "../models/User";
+import jwt from "jsonwebtoken";
+import User from "../models/User";
 import bcrypt from "bcrypt";
 import signJWT from "../functions/signJWT";
 import config from "../config/config";
@@ -50,6 +50,7 @@ export const postSignup = async (req: Request, res: Response) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 5);
+
   try {
     const createdUser = await User.create({
       username,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createUser } from "../services/auth";
+import { createUser } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 
 const Add = () => {
@@ -47,7 +47,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="username"
           >
-            Username{" "}
+            Username
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -63,7 +63,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="password"
           >
-            Password{" "}
+            Password
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -79,7 +79,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="password2"
           >
-            Repeat Password{" "}
+            Repeat Password
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -95,7 +95,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="email"
           >
-            Email{" "}
+            Email
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -111,7 +111,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="firstName"
           >
-            First Name{" "}
+            First Name
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -127,7 +127,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="lastName"
           >
-            Last Name{" "}
+            Last Name
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -167,7 +167,7 @@ const Add = () => {
                   className="mb-3 block text-base font-medium text-[#07074D]"
                   htmlFor="housenumber"
                 >
-                  Nr{" "}
+                  Nr
                 </label>
                 <input
                   className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3  text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -187,7 +187,7 @@ const Add = () => {
                   className="mb-3 block text-base font-medium text-[#07074D]"
                   htmlFor="zipcode"
                 >
-                  PLZ{" "}
+                  PLZ
                 </label>
                 <input
                   className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -205,7 +205,7 @@ const Add = () => {
                   className="mb-3 block text-base font-medium text-[#07074D]"
                   htmlFor="city"
                 >
-                  Ort{" "}
+                  Ort
                 </label>
                 <input
                   className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3  text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -223,7 +223,7 @@ const Add = () => {
               className="mb-3 block text-base font-medium text-[#07074D]"
               htmlFor="country"
             >
-              Land{" "}
+              Land
             </label>
             <input
               className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3  text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -240,7 +240,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="role"
           >
-            Role{" "}
+            Role
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"

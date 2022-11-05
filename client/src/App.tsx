@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { UserContext, UserContextInterface } from "./context/UserContext";
-import { getCurrentUser } from "./services/auth";
+import { getCurrentUser } from "./services/auth.service";
 import { IUser } from "./types/user.type";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Navbar from "./components/Navbar";

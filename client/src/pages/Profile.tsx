@@ -1,74 +1,89 @@
-import { SyntheticEvent, useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { IUser } from "../types/user.type";
-import { Link } from "react-router-dom";
+import {
+  SyntheticEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import authHeader from "../services/authHeader";
+import {
+  createComment,
+  deletUser,
+  getProfileUser,
+} from "../services/user.service";
+import { IUser } from "../types/user.type";
 import { IComment } from "../types/comment.type";
 
 const Profile = () => {
   const userContext = useContext(UserContext);
-
   const { id } = useParams();
-  const navigation = useNavigate();
-  const API_URL = "http://localhost:4000/";
   const [profileUser, setProfileUser] = useState<IUser | null>();
-
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<IComment[] | null | undefined>([]);
-
   const [show, setShow] = useState(false);
+  const navigation = useNavigate();
 
   useEffect(() => {
     setComments(profileUser?.comments);
   }, [setComments, profileUser]);
-
-  useEffect(() => {
-    axios
-      .get(API_URL + `user/${id}`, { headers: authHeader() })
-      .then((res) => {
-        setProfileUser(res.data);
-      })
-      .catch((error) => console.log(error));
+  //get Employee for Current Profile
+  const getThisUser = useCallback(async () => {
+    try {
+      const response = await getProfileUser(id);
+      setProfileUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }, [id, setProfileUser]);
 
-  const handleDelete = () => {
-    axios
-      .delete(API_URL + `user/${id}`, { headers: authHeader() })
-      .then((res) => {
-        console.log(res.data);
-        setShow(false);
-        navigation("/");
-      })
-      .catch((error) => console.log(error));
+  useEffect(() => {
+    getThisUser();
+  }, [getThisUser]);
+
+  //Delete this Employee
+  const handleDelete = async () => {
+    try {
+      await deletUser(id);
+      setShow(false);
+      navigation("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    axios
-      .post(
-        API_URL + "comment",
-        {
-          username: profileUser?.username,
-          text: comment,
-          author: userContext?.user?.username,
-        },
-        { headers: authHeader() }
-      )
-      .then((res) => {
-        console.log(res.data);
-        axios
-          .get(API_URL + `user/${id}`, { headers: authHeader() })
-          .then((res) => {
-            setProfileUser(res.data);
-          })
-          .catch((error) => console.log(error));
-        setProfileUser(profileUser);
-        setComment("");
-      })
-      .catch((error) => console.log(error));
+  //Create Comment
+  const isIUser = (value: any): value is IUser => {
+    if (!value.data.username) {
+      return false;
+    }
+    return true;
   };
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      const commentDTO = {
+        username: profileUser?.username,
+        text: comment,
+        author: userContext?.user?.username,
+      };
+      await createComment(commentDTO);
+      try {
+        const response = await getProfileUser(id);
+        if (isIUser(response)) {
+          setProfileUser(response.data);
+          setComment("");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    setProfileUser(profileUser);
+  }, [profileUser]);
 
   return (
     <>

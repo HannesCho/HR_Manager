@@ -5,6 +5,7 @@ import { getUserList } from "../services/user.service";
 export default function HomePage() {
   const [users, setUsers] = useState<Array<IUser>>([]);
 
+  //get all User List
   const getAllUsers = useCallback(async () => {
     try {
       const response = await getUserList();
@@ -18,7 +19,7 @@ export default function HomePage() {
     getAllUsers();
   }, [getAllUsers]);
 
-  //CSV
+  //CSV-start
   interface UserCsvData {
     [key: string]: string;
   }
@@ -65,7 +66,7 @@ export default function HomePage() {
     console.log(csvData);
     download(csvData);
   };
-  // CSV
+  // CSV-end
 
   return (
     <div className="flex flex-col item-center bg-gray-200">

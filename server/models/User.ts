@@ -1,22 +1,5 @@
-import bcrypt from "bcrypt";
 import mongoose, { Document, Schema } from "mongoose";
-import { IComment } from "./Comment";
-
-export interface IUser {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  street: string;
-  housenumber: string;
-  zipcode: number;
-  city: string;
-  country: string;
-  role: string;
-  admin: boolean;
-  comments?: Array<IComment>;
-}
+import { IUser } from "../types/model.type";
 
 export interface IUserModel extends IUser, Document {}
 

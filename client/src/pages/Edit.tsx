@@ -1,7 +1,7 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import authHeader from "../services/authHeader";
+import { editUser, getProfileUser } from "../services/user.service";
+import { UserDTO } from "../types/dtos.type";
 import { IUser } from "../types/user.type";
 
 const Edit = () => {
@@ -19,8 +19,6 @@ const Edit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const API_URL = "http://localhost:4000/user/";
-
   useEffect(() => {
     setUsername(thisUser?.username);
     setEmail(thisUser?.email);
@@ -33,33 +31,41 @@ const Edit = () => {
     setCountry(thisUser?.country);
     setRole(thisUser?.role);
   }, [thisUser]);
-  useEffect(() => {
-    axios
-      .get(API_URL + `${id}`, { headers: authHeader() })
-      .then((res) => {
-        setThisUser(res.data);
-      })
-      .catch((error) => console.log(error));
+
+  //get Employee for Current Profile
+  const getThisUser = useCallback(async () => {
+    try {
+      const response = await getProfileUser(id);
+      setThisUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }, [id, setThisUser]);
 
+  useEffect(() => {
+    getThisUser();
+  }, [getThisUser]);
+
+  //Edit this User
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await axios.put(
-      API_URL + `${id}`,
-      {
-        username,
-        firstName,
-        lastName,
-        email,
-        street,
-        housenumber,
-        zipcode,
-        city,
-        country,
-        role,
-      },
-      { headers: authHeader() }
-    );
+    const userDTO: UserDTO = {
+      username,
+      firstName,
+      lastName,
+      email,
+      street,
+      housenumber,
+      zipcode,
+      city,
+      country,
+      role,
+    };
+    try {
+      await editUser(userDTO, id);
+    } catch (error) {
+      console.log(error);
+    }
     navigate(`/${id}`);
   };
 
@@ -76,7 +82,7 @@ const Edit = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="username"
           >
-            Username{" "}
+            Username
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -92,7 +98,7 @@ const Edit = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="email"
           >
-            Email{" "}
+            Email
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -108,7 +114,7 @@ const Edit = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="firstName"
           >
-            First Name{" "}
+            First Name
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -124,7 +130,7 @@ const Edit = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="lastName"
           >
-            Last Name{" "}
+            Last Name
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -164,7 +170,7 @@ const Edit = () => {
                   className="mb-3 block text-base font-medium text-[#07074D]"
                   htmlFor="housenumber"
                 >
-                  Nr{" "}
+                  Nr
                 </label>
                 <input
                   className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3  text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -184,7 +190,7 @@ const Edit = () => {
                   className="mb-3 block text-base font-medium text-[#07074D]"
                   htmlFor="zipcode"
                 >
-                  PLZ{" "}
+                  PLZ
                 </label>
                 <input
                   className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -202,7 +208,7 @@ const Edit = () => {
                   className="mb-3 block text-base font-medium text-[#07074D]"
                   htmlFor="city"
                 >
-                  Ort{" "}
+                  Ort
                 </label>
                 <input
                   className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3  text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -220,7 +226,7 @@ const Edit = () => {
               className="mb-3 block text-base font-medium text-[#07074D]"
               htmlFor="country"
             >
-              Land{" "}
+              Land
             </label>
             <input
               className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3  text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -236,7 +242,7 @@ const Edit = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="role"
           >
-            Role{" "}
+            Role
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"

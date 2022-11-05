@@ -1,18 +1,9 @@
 import axios from "axios";
-import { IUser } from "../types/user.type";
 import authHeader from "./authHeader";
+import { IUser } from "../types/user.type";
+import { CreateUserDTO, LoginResponse } from "../types/dtos.type";
 
 const API_URL = "http://localhost:4000/";
-
-interface CreateUserDTO extends IUser {
-  password2: string;
-}
-
-interface LoginResponse {
-  user: IUser;
-  token: string;
-  message: string;
-}
 
 export const createUser = async function (dto: CreateUserDTO) {
   try {

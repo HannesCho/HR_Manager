@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { logout } from "../services/auth";
+import { logout } from "../services/auth.service";
 
 const Navbar = () => {
   const userContext = useContext(UserContext);

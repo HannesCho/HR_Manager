@@ -1,7 +1,7 @@
 import { SyntheticEvent, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { login } from "../services/auth";
+import { login } from "../services/auth.service";
 
 const Login = () => {
   const [username, setUsername] = useState("");

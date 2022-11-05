@@ -12,6 +12,6 @@ const userRouter = express.Router();
 userRouter.get("/", extractJWT, loggedInUser);
 userRouter.get("/:id", extractJWT, userProfile);
 userRouter.delete("/:id", extractJWT, deleteUser);
-userRouter.put("/edit/:id", extractJWT, editUser);
+userRouter.put("/:id", extractJWT, editUser);
 
 export default userRouter;
