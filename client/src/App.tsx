@@ -1,17 +1,16 @@
+import { useCallback, useEffect, useState } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { UserContext, UserContextInterface } from "./context/UserContext";
+import { getCurrentUser } from "./services/auth";
+import { IUser } from "./types/user.type";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Footer from "./components/Footer";
-import { UserContext, UserContextInterface } from "./context/UserContext";
-import { useCallback, useEffect, useState } from "react";
-import { getCurrentUser } from "./services/auth";
-import ProtectedRoutes from "./components/ProtectedRoutes";
 import Add from "./pages/Add";
-import Profile from "./pages/Profile";
 import Edit from "./pages/Edit";
-import { IUser } from "./types/user.type";
+import Profile from "./pages/Profile";
 
 const App = () => {
   const [user, setUser] = useState<IUser | null>(null);
@@ -51,7 +50,6 @@ const App = () => {
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>
-      <Footer />
     </div>
   );
 };

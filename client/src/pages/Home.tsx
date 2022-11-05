@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IUser } from "../types/user.type";
@@ -19,6 +18,7 @@ export default function HomePage() {
     getAllUsers();
   }, [getAllUsers]);
 
+  //CSV
   interface UserCsvData {
     [key: string]: string;
   }
@@ -65,25 +65,67 @@ export default function HomePage() {
     console.log(csvData);
     download(csvData);
   };
+  // CSV
 
   return (
-    <div className="home-container">
-      <h1>HR Manager</h1>
-      <button className="main-btn" onClick={() => handleCSV()}>
-        Download Employee List
-      </button>
-
+    <div className="flex flex-col item-center bg-gray-200">
+      <h1 className="pt-5 pl-10 block text-2xl font-medium text-[#07074D]">
+        All Employees List
+      </h1>
+      <div className="flex p-2 justify-end mb-5 mr-10">
+        <button
+          className="hover:shadow-form rounded-md bg-blue-500 hover:bg-blue-400 py-2 px-4 text-sm font-semibold text-white outline-none"
+          onClick={() => handleCSV()}
+        >
+          Download Employee List
+        </button>
+      </div>
       <ul>
         {users.map((user) => {
           return (
-            <>
-              <li key={user._id}>{user.username}</li>
-              <Link to={`/${user._id}`}>details</Link>
-              <Link to={`edit/${user._id}`}>edit</Link>
-            </>
+            <li key={user._id} className="mx-10 my-2">
+              <div className="flex min-w-min max-w-xl md:max-w-full flex-col md:flex-row md:justify-between p-5 rounded-xl bg-white p-4 shadow-lg">
+                <div className="flex">
+                  <div className="flex mr-10 h-12 w-12 items-center justify-center rounded-full border border-orange-100 bg-orange-50">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-orange-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-base md:text-xl font-semibold">
+                      {user.firstName} &nbsp;
+                      {user.lastName}
+                    </p>
+                    <p className="text-sm md:text-base text-gray-300">
+                      {user.email}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-end mt-5 md:mt-0 md:justify-center">
+                  <button className="hover:shadow-form mr-5 rounded-md bg-amber-500 hover:bg-amber-400 py-2 px-4 text-sm font-semibold text-white outline-none">
+                    <Link to={`/${user._id}`}>Profile</Link>
+                  </button>
+                  <button className="hover:shadow-form rounded-md bg-amber-500 hover:bg-amber-400 py-2 px-4 text-sm font-semibold text-white outline-none">
+                    <Link to={`edit/${user._id}`}>Edit</Link>
+                  </button>
+                </div>
+              </div>
+            </li>
           );
         })}
       </ul>
+      <hr className="m-5" />
     </div>
   );
 }

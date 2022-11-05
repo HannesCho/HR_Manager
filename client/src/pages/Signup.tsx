@@ -37,12 +37,20 @@ const Signup = () => {
   };
 
   return (
-    <>
-      <div className="signup-container">
-        <h3>Create Account</h3>
+    <div className="flex items-center justify-center p-12">
+      <div className="mx-auto w-full max-w-[550px]">
         <form onSubmit={handleSubmit}>
-          <label htmlFor="username">Username </label>
+          <h3 className="mb-8 block text-2xl font-medium text-[#07074D]">
+            Create Account
+          </h3>
+          <label
+            className="mb-3 block text-base font-medium text-[#07074D]"
+            htmlFor="username"
+          >
+            Username{" "}
+          </label>
           <input
+            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
             type="text"
             name="username"
             value={username}
@@ -51,8 +59,14 @@ const Signup = () => {
             }
           />
           <br></br>
-          <label htmlFor="password">Password </label>
+          <label
+            className="mb-3 block text-base font-medium text-[#07074D]"
+            htmlFor="password"
+          >
+            Password{" "}
+          </label>
           <input
+            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
             type="password"
             name="password"
             value={password}
@@ -61,8 +75,14 @@ const Signup = () => {
             }
           />
           <br></br>
-          <label htmlFor="password2">Repeat Password </label>
+          <label
+            className="mb-3 block text-base font-medium text-[#07074D]"
+            htmlFor="password2"
+          >
+            Repeat Password{" "}
+          </label>
           <input
+            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
             type="password"
             name="password2"
             value={password2}
@@ -71,8 +91,14 @@ const Signup = () => {
             }
           />
           <br></br>
-          <label htmlFor="email">Email </label>
+          <label
+            className="mb-3 block text-base font-medium text-[#07074D]"
+            htmlFor="email"
+          >
+            Email{" "}
+          </label>
           <input
+            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
             type="email"
             name="email"
             value={email}
@@ -81,8 +107,14 @@ const Signup = () => {
             }
           />
           <br></br>
-          <label htmlFor="firstName">First Name </label>
+          <label
+            className="mb-3 block text-base font-medium text-[#07074D]"
+            htmlFor="firstName"
+          >
+            First Name{" "}
+          </label>
           <input
+            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
             type="text"
             name="firstName"
             value={firstName}
@@ -91,8 +123,14 @@ const Signup = () => {
             }
           />
           <br></br>
-          <label htmlFor="lastName">Last Name </label>
+          <label
+            className="mb-3 block text-base font-medium text-[#07074D]"
+            htmlFor="lastName"
+          >
+            Last Name{" "}
+          </label>
           <input
+            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
             type="text"
             name="lastName"
             value={lastName}
@@ -101,58 +139,111 @@ const Signup = () => {
             }
           />
           <br></br>
-          <label htmlFor="street">Street</label>
-          <input
-            type="text"
-            name="street"
-            value={street}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setStreet(e.currentTarget.value)
-            }
-          />
+          <div>
+            <label className="mb-3 block text-base font-medium text-[#07074D]">
+              Address
+            </label>
+            <div className="grid grid-cols-4">
+              <div className="col-span-3">
+                <label
+                  className="mb-3 block text-base font-medium text-[#07074D]"
+                  htmlFor="street"
+                >
+                  Street
+                </label>
+                <input
+                  className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
+                  type="text"
+                  name="street"
+                  value={street}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    setStreet(e.currentTarget.value)
+                  }
+                />
+                <br></br>
+              </div>
+              <div className="ml-5">
+                <label
+                  className="mb-3 block text-base font-medium text-[#07074D]"
+                  htmlFor="housenumber"
+                >
+                  Nr{" "}
+                </label>
+                <input
+                  className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3  text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
+                  type="text"
+                  name="housenumber"
+                  value={housenumber}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    setHousenumber(e.currentTarget.value)
+                  }
+                />
+                <br></br>
+              </div>
+            </div>
+            <div className="grid grid-cols-2">
+              <div className="mr-5">
+                <label
+                  className="mb-3 block text-base font-medium text-[#07074D]"
+                  htmlFor="zipcode"
+                >
+                  PLZ{" "}
+                </label>
+                <input
+                  className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
+                  type="number"
+                  name="zipcode"
+                  value={zipcode}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    setZipcode(e.currentTarget.value)
+                  }
+                />
+                <br></br>
+              </div>
+              <div>
+                <label
+                  className="mb-3 block text-base font-medium text-[#07074D]"
+                  htmlFor="city"
+                >
+                  Ort{" "}
+                </label>
+                <input
+                  className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3  text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
+                  type="text"
+                  name="city"
+                  value={city}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    setCity(e.currentTarget.value)
+                  }
+                />
+                <br></br>
+              </div>
+            </div>
+            <label
+              className="mb-3 block text-base font-medium text-[#07074D]"
+              htmlFor="country"
+            >
+              Land{" "}
+            </label>
+            <input
+              className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-1 px-3  text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
+              type="text"
+              name="country"
+              value={country}
+              onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                setCountry(e.currentTarget.value)
+              }
+            />
+          </div>
           <br></br>
-          <label htmlFor="housenumber">Nr </label>
+          <label
+            className="mb-3 block text-base font-medium text-[#07074D]"
+            htmlFor="role"
+          >
+            Role{" "}
+          </label>
           <input
-            type="text"
-            name="housenumber"
-            value={housenumber}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setHousenumber(e.currentTarget.value)
-            }
-          />
-          <br></br>
-          <label htmlFor="zipcode">PLZ </label>
-          <input
-            type="number"
-            name="zipcode"
-            value={zipcode}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setZipcode(e.currentTarget.value)
-            }
-          />
-          <br></br>
-          <label htmlFor="city">Ort </label>
-          <input
-            type="text"
-            name="city"
-            value={city}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setCity(e.currentTarget.value)
-            }
-          />
-          <br></br>
-          <label htmlFor="country">Land </label>
-          <input
-            type="text"
-            name="country"
-            value={country}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setCountry(e.currentTarget.value)
-            }
-          />
-          <br></br>
-          <label htmlFor="role">Role </label>
-          <input
+            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
             type="text"
             name="role"
             value={role}
@@ -161,10 +252,15 @@ const Signup = () => {
             }
           />
           <br></br>
-          <button type="submit">Sign Up</button>
+          <button
+            className="hover:shadow-form rounded-md bg-blue-500 hover:bg-blue-400 py-3 px-8 text-base font-semibold text-white outline-none"
+            type="submit"
+          >
+            Sign Up
+          </button>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

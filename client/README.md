@@ -8,31 +8,31 @@ an employee management application for Badumts GmbH
 
 ## Frontend
 
-- Landing page
+- Landing page✅
 
   - overview ✅
   - export btn
 
 - login page ✅
-- detailed page
+- detailed page✅
 
-  - add btn
-  - edit btn
-  - delete btn
+  - add btn✅
+  - edit btn✅
+  - delete btn✅
 
 - nav bar
   - log in/log out btn ✅
-  - user profile page btn
+  - user profile page btn✅
 
 ## Pages
 
 - Login ✅
 - Register ✅
 - Dashboard (employee overview) ✅
-- Employee detail view
-  - Comments
-- Create / Edit employee
+- Employee detail view✅
+  - Comments✅
+- Create / Edit employee✅
 
 Feature
 
-- Import CSV
+- Import CSV✅
