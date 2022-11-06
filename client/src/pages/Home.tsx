@@ -2,10 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IUser } from "../types/user.type";
 import { getUserList } from "../services/user.service";
+import { IEmployee } from "../types/employee.type";
+import { getEmployeeList } from "../services/employee.service";
 
 const HomePage = () => {
   const [users, setUsers] = useState<Array<IUser>>([]);
-
+  const [employees, setEmployees] = useState<Array<IEmployee>>([]);
   //get all User List
   const getAllUsers = useCallback(async () => {
     try {
@@ -19,6 +21,22 @@ const HomePage = () => {
   useEffect(() => {
     getAllUsers();
   }, [getAllUsers]);
+
+  const getAllEmployee = useCallback(async () => {
+    try {
+      const response = await getEmployeeList();
+      console.log(response);
+      setEmployees(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getAllEmployee();
+  }, [getAllEmployee]);
+
+  const AllList = [...users, ...employees];
 
   //CSV-start
   interface UserCsvData {
@@ -53,7 +71,7 @@ const HomePage = () => {
       document.body.removeChild(a);
     };
 
-    const data = users.map((user) => ({
+    const data = AllList.map((user) => ({
       firstName: user.firstName,
       lastName: user.lastName,
       street: user.street,
@@ -83,7 +101,7 @@ const HomePage = () => {
         </button>
       </div>
       <ul>
-        {users.map((user) => {
+        {AllList.map((user) => {
           return (
             <li key={user._id} className="mx-10 my-2">
               <div className="flex min-w-min max-w-xl md:max-w-full flex-col md:flex-row md:justify-between p-5 rounded-xl bg-white p-4 shadow-lg">

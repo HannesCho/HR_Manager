@@ -4,6 +4,7 @@ import User from "../models/User";
 import bcrypt from "bcrypt";
 import signJWT from "../functions/signJWT";
 import config from "../config/config";
+import Employee from "../models/Employee";
 
 export const userList = async (
   req: Request,
@@ -64,6 +65,13 @@ export const Signup = async (req: Request, res: Response) => {
 
   const emailExists = await User.exists({ email });
   if (emailExists) {
+    return res.status(403).json({
+      errorMessage: "This email is already taken.",
+    });
+  }
+
+  const existsEmployee = await Employee.exists({ $or: [{ email }] });
+  if (existsEmployee) {
     return res.status(403).json({
       errorMessage: "This email is already taken.",
     });
@@ -138,13 +146,24 @@ export const Login = async (req: Request, res: Response) => {
 export const userProfile = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id);
-    return res.status(200).json(user);
+    if (user) {
+      return res.status(200).json(user);
+    }
+    try {
+      const employee = await Employee.findById(req.params.id);
+      return res.status(200).json(employee);
+    } catch (error) {
+      return res.status(400).json({
+        errorMessage: error,
+      });
+    }
   } catch (error) {
     return res.status(400).json({
       errorMessage: error,
     });
   }
 };
+
 export const editUser = async (req: Request, res: Response) => {
   const {
     username,
@@ -158,31 +177,62 @@ export const editUser = async (req: Request, res: Response) => {
     country,
     role,
   } = req.body;
-
-  try {
-    const editedUser = await User.findByIdAndUpdate(req.params.id, {
-      username,
-      firstName,
-      lastName,
-      email,
-      street,
-      housenumber,
-      zipcode,
-      city,
-      country,
-      role,
-    });
-    return res.status(200).json(editedUser);
-  } catch (error) {
-    return res.status(400).json({
-      errorMessage: error,
-    });
+  if (username) {
+    try {
+      const editedUser = await User.findByIdAndUpdate(req.params.id, {
+        username,
+        firstName,
+        lastName,
+        email,
+        street,
+        housenumber,
+        zipcode,
+        city,
+        country,
+        role,
+      });
+      return res.status(200).json(editedUser);
+    } catch (error) {
+      return res.status(400).json({
+        errorMessage: error,
+      });
+    }
+  } else {
+    try {
+      const editedEmployee = await Employee.findByIdAndUpdate(req.params.id, {
+        firstName,
+        lastName,
+        email,
+        street,
+        housenumber,
+        zipcode,
+        city,
+        country,
+        role,
+      });
+      return res.status(200).json(editedEmployee);
+    } catch (error) {
+      return res.status(400).json({
+        errorMessage: error,
+      });
+    }
   }
 };
+
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
-    return res.status(200).json(deletedUser);
+    if (deletedUser) {
+      return res.status(200).json(deletedUser);
+    }
+    try {
+      const deletedEmpolyee = await Employee.findByIdAndDelete(req.params.id);
+      return res.status(200).json(deletedEmpolyee);
+    } catch (error) {
+      return res.status(400).json({
+        errorMessage: error,
+      });
+    }
   } catch (error) {
     return res.status(400).json({
       errorMessage: error,

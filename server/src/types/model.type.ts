@@ -20,3 +20,16 @@ export interface IComment {
   createdAt: string;
   author: string;
 }
+
+export interface IEmployee {
+  firstName: string;
+  lastName: string;
+  email: string;
+  street: string;
+  housenumber: string;
+  zipcode: number;
+  city: string;
+  country: string;
+  role: string;
+  comments?: Array<IComment>;
+}

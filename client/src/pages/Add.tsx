@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { createUser } from "../services/auth.service";
+import { createEmployee } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 
 const Add = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -15,87 +12,57 @@ const Add = () => {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [role, setRole] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await createUser({
-      username,
-      password,
-      password2,
-      firstName,
-      lastName,
-      email,
-      street,
-      housenumber,
-      zipcode,
-      city,
-      country,
-      role,
-    });
-    navigate("/");
+    try {
+      const createdEmployee = await createEmployee({
+        firstName,
+        lastName,
+        email,
+        street,
+        housenumber,
+        zipcode,
+        city,
+        country,
+        role,
+      });
+      if (typeof createdEmployee === "string") {
+        setErrorMessage(createdEmployee);
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="flex items-center justify-center p-12">
       <div className="mx-auto w-full max-w-[550px]">
+        {errorMessage ? (
+          <div
+            className="mb-3 bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3"
+            role="alert"
+          >
+            <p className="font-bold">Error : please try again!</p>
+            <p className="text-sm">{errorMessage}</p>
+          </div>
+        ) : (
+          <></>
+        )}
         <form onSubmit={handleSubmit}>
           <h3 className="mb-8 block text-2xl font-medium text-[#07074D]">
             Add New Employee
           </h3>
           <label
             className="mb-3 block text-base font-medium text-[#07074D]"
-            htmlFor="username"
-          >
-            Username
-          </label>
-          <input
-            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
-            type="text"
-            name="username"
-            value={username}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setUsername(e.currentTarget.value)
-            }
-          />
-          <br></br>
-          <label
-            className="mb-3 block text-base font-medium text-[#07074D]"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <input
-            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setPassword(e.currentTarget.value)
-            }
-          />
-          <br></br>
-          <label
-            className="mb-3 block text-base font-medium text-[#07074D]"
-            htmlFor="password2"
-          >
-            Repeat Password
-          </label>
-          <input
-            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
-            type="password"
-            name="password2"
-            value={password2}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setPassword2(e.currentTarget.value)
-            }
-          />
-          <br></br>
-          <label
-            className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="email"
           >
-            Email
+            Email*
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -111,7 +78,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="firstName"
           >
-            First Name
+            First Name*
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -127,7 +94,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="lastName"
           >
-            Last Name
+            Last Name*
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -240,7 +207,7 @@ const Add = () => {
             className="mb-3 block text-base font-medium text-[#07074D]"
             htmlFor="role"
           >
-            Role
+            Role*
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
@@ -252,6 +219,9 @@ const Add = () => {
             }
           />
           <br></br>
+          <h3 className="mb-8 block text-base font-medium text-gray-500">
+            * required
+          </h3>
           <button
             className="hover:shadow-form rounded-md bg-blue-500 hover:bg-blue-400 py-3 px-8 text-base font-semibold text-white outline-none"
             type="submit"

@@ -1,3 +1,4 @@
+import { IEmployee } from "./employee.type";
 import { IUser } from "./user.type";
 
 export interface UserDTO {
@@ -12,6 +13,8 @@ export interface UserDTO {
   country: string | undefined;
   role: string | undefined;
 }
+
+export interface EmployeeDTO extends IEmployee {}
 
 export interface CommentDTO {
   username: string | undefined;
