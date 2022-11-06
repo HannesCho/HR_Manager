@@ -100,6 +100,10 @@ const Edit = () => {
             htmlFor="username"
           >
             Username*
+            <span className="text-gray-400">
+              {" "}
+              only for User not for Employee
+            </span>
           </label>
           <input
             className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"

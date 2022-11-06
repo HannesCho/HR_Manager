@@ -178,16 +178,14 @@ export const editUser = async (req: Request, res: Response) => {
     role,
   } = req.body;
 
-  if (!username || !firstName || !lastName || !email || !role) {
-    console.log("hit");
-    return res
-      .json({ errorMessage: "Please Check required fields" })
-      .status(401);
-  }
-
-  if (username) {
+  const userExists = await User.exists({ $or: [{ username }, { email }] });
+  if (userExists) {
+    if (!username || !firstName || !lastName || !email || !role) {
+      return res
+        .json({ errorMessage: "Please Check required fields" })
+        .status(401);
+    }
     try {
-      console.log("user");
       const editedUser = await User.findByIdAndUpdate(req.params.id, {
         username,
         firstName,
@@ -207,7 +205,20 @@ export const editUser = async (req: Request, res: Response) => {
         errorMessage: error,
       });
     }
-  } else {
+  }
+
+  const existsEmployee = await Employee.exists({ email });
+  if (existsEmployee) {
+    if (username) {
+      return res
+        .json({ errorMessage: "Employee don't have username" })
+        .status(401);
+    }
+    if (!firstName || !lastName || !email || !role) {
+      return res
+        .json({ errorMessage: "Please Check required fields" })
+        .status(401);
+    }
     try {
       const editedEmployee = await Employee.findByIdAndUpdate(req.params.id, {
         firstName,
