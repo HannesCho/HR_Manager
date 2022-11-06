@@ -26,6 +26,12 @@ export const signupEmployee = async (req: Request, res: Response) => {
     role,
   } = req.body;
 
+  if (!firstName || !lastName || !email || !role) {
+    return res
+      .status(403)
+      .json({ errorMessage: "Please Check required fields" });
+  }
+
   const existsUser = await User.exists({ $or: [{ email }] });
   if (existsUser) {
     return res.status(403).json({

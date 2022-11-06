@@ -118,9 +118,12 @@ const Profile = () => {
               </div>
             </div>
             <div className="flex flex-row items-center justify-center">
-              <button className="mx-5 rounded-md bg-blue-500 hover:bg-blue-400 max-w-sm w-full py-3 px-5 mb-5 text-sm font-semibold text-white outline-none">
-                <Link to={`/edit/${id}`}>Edit</Link>
-              </button>
+              <Link
+                className="flex justify-center mx-5 rounded-md bg-blue-500 hover:bg-blue-400 max-w-sm w-full py-3 px-5 mb-5 text-sm font-semibold text-white outline-none"
+                to={`/edit/${id}`}
+              >
+                Edit
+              </Link>
               <button
                 className="mx-5 rounded-md bg-red-500 hover:bg-red-400 max-w-sm w-full py-3 px-5 mb-5 text-sm font-semibold text-white outline-none"
                 onClick={() => setShow(true)}

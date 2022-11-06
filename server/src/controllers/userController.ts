@@ -70,7 +70,7 @@ export const Signup = async (req: Request, res: Response) => {
     });
   }
 
-  const existsEmployee = await Employee.exists({ $or: [{ email }] });
+  const existsEmployee = await Employee.exists({ email });
   if (existsEmployee) {
     return res.status(403).json({
       errorMessage: "This email is already taken.",
@@ -177,8 +177,17 @@ export const editUser = async (req: Request, res: Response) => {
     country,
     role,
   } = req.body;
+
+  if (!username || !firstName || !lastName || !email || !role) {
+    console.log("hit");
+    return res
+      .json({ errorMessage: "Please Check required fields" })
+      .status(401);
+  }
+
   if (username) {
     try {
+      console.log("user");
       const editedUser = await User.findByIdAndUpdate(req.params.id, {
         username,
         firstName,
@@ -191,6 +200,7 @@ export const editUser = async (req: Request, res: Response) => {
         country,
         role,
       });
+      console.log("editedUser", editedUser);
       return res.status(200).json(editedUser);
     } catch (error) {
       return res.status(400).json({
@@ -210,6 +220,7 @@ export const editUser = async (req: Request, res: Response) => {
         country,
         role,
       });
+      console.log("editedEmployee", editedEmployee);
       return res.status(200).json(editedEmployee);
     } catch (error) {
       return res.status(400).json({

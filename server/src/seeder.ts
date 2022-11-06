@@ -38,4 +38,4 @@ const seed = async () => {
   }
 };
 seed();
-// npx ts-node server/seed.ts => create fake user data
+// npx ts-node src/seeder.ts => create fake user data

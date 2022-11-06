@@ -133,12 +133,18 @@ const HomePage = () => {
                   </div>
                 </div>
                 <div className="flex justify-end mt-5 md:mt-0 md:justify-center">
-                  <button className="hover:shadow-form mr-5 rounded-md bg-amber-500 hover:bg-amber-400 py-2 px-4 text-sm font-semibold text-white outline-none">
-                    <Link to={`/${user._id}`}>Profile</Link>
-                  </button>
-                  <button className="hover:shadow-form rounded-md bg-amber-500 hover:bg-amber-400 py-2 px-4 text-sm font-semibold text-white outline-none">
-                    <Link to={`edit/${user._id}`}>Edit</Link>
-                  </button>
+                  <Link
+                    className="flex items-center hover:shadow-form mr-5 rounded-md bg-amber-500 hover:bg-amber-400 py-2 px-4 text-sm font-semibold text-white outline-none"
+                    to={`/${user._id}`}
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    className="flex items-center hover:shadow-form rounded-md bg-amber-500 hover:bg-amber-400 py-2 px-4 text-sm font-semibold text-white outline-none"
+                    to={`edit/${user._id}`}
+                  >
+                    Edit
+                  </Link>
                 </div>
               </div>
             </li>

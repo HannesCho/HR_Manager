@@ -14,7 +14,9 @@ export const getProfileUser = (id: string | undefined) => {
 };
 
 export const editUser = (userDTO: UserDTO, id: string | undefined) => {
-  return axios.put(API_URL + `user/${id}`, userDTO, { headers: authHeader() });
+  return axios.patch(API_URL + `user/${id}`, userDTO, {
+    headers: authHeader(),
+  });
 };
 
 export const deletUser = (id: string | undefined) => {
