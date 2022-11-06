@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IUser } from "../types/user.type";
 import { getUserList } from "../services/user.service";
-export default function HomePage() {
+
+const HomePage = () => {
   const [users, setUsers] = useState<Array<IUser>>([]);
 
   //get all User List
@@ -129,4 +130,6 @@ export default function HomePage() {
       <hr className="m-5" />
     </div>
   );
-}
+};
+
+export default HomePage;

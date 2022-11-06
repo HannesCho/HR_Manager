@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { UserContext, UserContextInterface } from "./context/UserContext";
 import { getCurrentUser } from "./services/auth.service";
@@ -14,6 +20,7 @@ import Profile from "./pages/Profile";
 
 const App = () => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [isSigedUp, setIsSigedUp] = useState(false);
 
   const setCurrentUser = useCallback(async () => {
     try {
@@ -28,14 +35,14 @@ const App = () => {
     if (!user) setCurrentUser();
   }, [setCurrentUser, user]);
 
-  const sampleAppContext: UserContextInterface = {
+  const AppUserContext: UserContextInterface = {
     user,
     setUser,
   };
 
   return (
     <div className="App">
-      <UserContext.Provider value={sampleAppContext}>
+      <UserContext.Provider value={AppUserContext}>
         <BrowserRouter>
           <Navbar />
           <Routes>
@@ -45,8 +52,16 @@ const App = () => {
               <Route path="/edit/:id" element={<Edit />} />
               <Route path="/:id" element={<Profile />} />
             </Route>
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={
+                <Login setIsSigedUp={setIsSigedUp} isSigedUp={isSigedUp} />
+              }
+            />
+            <Route
+              path="/signup"
+              element={<Signup setIsSigedUp={setIsSigedUp} />}
+            />
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>

@@ -2,12 +2,15 @@ import { SyntheticEvent, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { login } from "../services/auth.service";
+import { IProps } from "../types/props.type";
 
-const Login = () => {
+const Login = ({ isSigedUp, setIsSigedUp }: IProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const userContext = useContext(UserContext);
   const navigation = useNavigate();
+
   if (userContext?.user) {
     navigation("/");
   }
@@ -15,8 +18,13 @@ const Login = () => {
     e.preventDefault();
     try {
       const currentUser = await login(username, password);
-      userContext?.setUser(currentUser);
-      navigation("/");
+      if (typeof currentUser === "string") {
+        setErrorMessage(currentUser);
+      } else {
+        userContext?.setUser(currentUser);
+        setIsSigedUp(false);
+        navigation("/");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -50,6 +58,28 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {errorMessage ? (
+            <div
+              className="mb-3 bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3"
+              role="alert"
+            >
+              <p className="font-bold">Error : please try again!</p>
+              <p className="text-sm">{errorMessage}</p>
+            </div>
+          ) : (
+            <></>
+          )}
+          {isSigedUp ? (
+            <div
+              className="mb-3 bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
+              role="alert"
+            >
+              <p className="font-bold">You are Signed Up</p>
+              <p className="text-sm">Please, login to use this App.</p>
+            </div>
+          ) : (
+            <></>
+          )}
           <button
             className="w-full bg-blue-500 hover:bg-blue-400 text-white p-3 rounded-lg font-semibold text-lg"
             type="submit"

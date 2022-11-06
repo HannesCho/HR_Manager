@@ -20,8 +20,9 @@ export const createUser = async function (dto: CreateUserDTO) {
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      const errorMessage = error.response?.data.errorMessage;
       console.log("error: ", error.message);
-      return error.message;
+      return errorMessage;
     } else {
       console.log("unexpected error: ", error);
       return "An unexpected error occurred";
@@ -48,8 +49,9 @@ export const login = async (username: string, password: string) => {
     return data.user;
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      const errorMessage = error.response?.data.errorMessage;
       console.log("error: ", error.message);
-      return error.message;
+      return errorMessage;
     } else {
       console.log("unexpected error: ", error);
       return "An unexpected error occurred";

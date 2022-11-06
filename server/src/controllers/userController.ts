@@ -20,7 +20,7 @@ export const userList = async (
   }
 };
 
-export const postSignup = async (req: Request, res: Response) => {
+export const Signup = async (req: Request, res: Response) => {
   const {
     username,
     password,
@@ -35,6 +35,19 @@ export const postSignup = async (req: Request, res: Response) => {
     country,
     role,
   } = req.body;
+  if (
+    !username ||
+    !password ||
+    !password2 ||
+    !firstName ||
+    !lastName ||
+    !email ||
+    !role
+  ) {
+    return res
+      .status(403)
+      .json({ errorMessage: "Please Check required fields" });
+  }
 
   if (password !== password2) {
     return res
@@ -42,10 +55,17 @@ export const postSignup = async (req: Request, res: Response) => {
       .json({ errorMessage: "Password confirmation does not match." });
   }
 
-  const exists = await User.exists({ $or: [{ username }, { email }] });
-  if (exists) {
+  const usernameExists = await User.exists({ username });
+  if (usernameExists) {
     return res.status(403).json({
-      errorMessage: "This username/email is already taken.",
+      errorMessage: "This username is already taken.",
+    });
+  }
+
+  const emailExists = await User.exists({ email });
+  if (emailExists) {
+    return res.status(403).json({
+      errorMessage: "This email is already taken.",
     });
   }
 
@@ -73,7 +93,7 @@ export const postSignup = async (req: Request, res: Response) => {
   }
 };
 
-export const postLogin = async (req: Request, res: Response) => {
+export const Login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
   if (!user) {
