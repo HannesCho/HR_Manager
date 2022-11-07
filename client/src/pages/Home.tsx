@@ -25,7 +25,7 @@ const HomePage = () => {
   const getAllEmployee = useCallback(async () => {
     try {
       const response = await getEmployeeList();
-      console.log(response);
+
       setEmployees(response.data);
     } catch (error) {
       console.log(error);

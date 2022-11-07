@@ -14,6 +14,7 @@ import {
 } from "../services/user.service";
 import { IUser } from "../types/user.type";
 import { IComment } from "../types/comment.type";
+import { logout } from "../services/auth.service";
 
 const Profile = () => {
   const userContext = useContext(UserContext);
@@ -30,8 +31,10 @@ const Profile = () => {
   //get Employee for Current Profile
   const getThisUser = useCallback(async () => {
     try {
-      const response = await getProfileUser(id);
-      setProfileUser(response.data);
+      if (id) {
+        const response = await getProfileUser(id);
+        setProfileUser(response.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -44,8 +47,21 @@ const Profile = () => {
   //Delete this Employee
   const handleDelete = async () => {
     try {
-      await deletUser(id);
-      setShow(false);
+      if (id) {
+        // if a user delete self, log out the user
+        if (profileUser?._id === userContext?.user?._id) {
+          console.log("here");
+          await deletUser(id);
+          setShow(false);
+          try {
+            logout();
+            userContext?.setUser(null);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+        navigation("/login");
+      }
       navigation("/");
     } catch (error) {
       console.log(error);
@@ -69,10 +85,12 @@ const Profile = () => {
       };
       await createComment(commentDTO);
       try {
-        const response = await getProfileUser(id);
-        if (isIUser(response)) {
-          setProfileUser(response.data);
-          setComment("");
+        if (id) {
+          const response = await getProfileUser(id);
+          if (isIUser(response)) {
+            setProfileUser(response.data);
+            setComment("");
+          }
         }
       } catch (error) {
         console.log(error);

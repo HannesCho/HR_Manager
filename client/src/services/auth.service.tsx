@@ -1,10 +1,9 @@
 import axios from "axios";
 import authHeader from "./authHeader";
+import { API_URL } from "../config/config";
 import { IUser } from "../types/user.type";
 import { CreateUserDTO, EmployeeDTO, LoginResponse } from "../types/dtos.type";
 import { IEmployee } from "../types/employee.type";
-
-const API_URL = "http://localhost:4000/";
 
 export const createUser = async function (dto: CreateUserDTO) {
   try {

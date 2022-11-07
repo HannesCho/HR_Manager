@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import Employee from "../models/Employee";
 
+//** get all employees from db */
 export const employeeList = async (req: Request, res: Response) => {
   try {
     const allEmployees = await Employee.find();
@@ -13,6 +14,7 @@ export const employeeList = async (req: Request, res: Response) => {
   }
 };
 
+//** create a new Employee */
 export const signupEmployee = async (req: Request, res: Response) => {
   const {
     firstName,
@@ -25,21 +27,21 @@ export const signupEmployee = async (req: Request, res: Response) => {
     country,
     role,
   } = req.body;
-
+  // check if there are all required fields
   if (!firstName || !lastName || !email || !role) {
     return res
       .status(403)
       .json({ errorMessage: "Please Check required fields" });
   }
-
-  const existsUser = await User.exists({ $or: [{ email }] });
+  // check if there is a user with same email
+  const existsUser = await User.exists({ email });
   if (existsUser) {
     return res.status(403).json({
       errorMessage: "This email is already taken.",
     });
   }
-
-  const existsEmployee = await Employee.exists({ $or: [{ email }] });
+  // check if there is a user with same email
+  const existsEmployee = await Employee.exists({ email });
   if (existsEmployee) {
     return res.status(403).json({
       errorMessage: "This email is already taken.",

@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 import { login } from "../services/auth.service";
 import { IProps } from "../types/props.type";
 
-const Login = ({ isSigedUp, setIsSigedUp }: IProps) => {
+const Login = ({ isSignedUp, setIsSignedUp }: IProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -22,7 +22,7 @@ const Login = ({ isSigedUp, setIsSigedUp }: IProps) => {
         setErrorMessage(currentUser);
       } else {
         userContext?.setUser(currentUser);
-        setIsSigedUp(false);
+        setIsSignedUp(false);
         navigation("/");
       }
     } catch (error) {
@@ -69,7 +69,7 @@ const Login = ({ isSigedUp, setIsSigedUp }: IProps) => {
           ) : (
             <></>
           )}
-          {isSigedUp ? (
+          {isSignedUp ? (
             <div
               className="mb-3 bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
               role="alert"

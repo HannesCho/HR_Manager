@@ -35,11 +35,13 @@ const Edit = () => {
 
   //get Employee for Current Profile
   const getThisUser = useCallback(async () => {
-    try {
-      const response = await getProfileUser(id);
-      setThisUser(response.data);
-    } catch (error) {
-      console.log(error);
+    if (id) {
+      try {
+        const response = await getProfileUser(id);
+        setThisUser(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [id, setThisUser]);
 
@@ -63,12 +65,14 @@ const Edit = () => {
       role,
     };
     try {
-      const editedUser = await editUser(userDTO, id);
-      if (typeof editedUser.data.errorMessage === "string") {
-        setErrorMessage(editedUser.data.errorMessage);
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-      } else {
-        navigate(`/${id}`);
+      if (id) {
+        const editedUser = await editUser(userDTO, id);
+        if (typeof editedUser.data.errorMessage === "string") {
+          setErrorMessage(editedUser.data.errorMessage);
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        } else {
+          navigate(`/${id}`);
+        }
       }
     } catch (error) {
       console.log(error);

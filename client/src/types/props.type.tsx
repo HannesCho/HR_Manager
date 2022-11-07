@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
 
 export interface IProps {
-  isSigedUp: boolean;
-  setIsSigedUp: Dispatch<SetStateAction<boolean>>;
+  isSignedUp: boolean;
+  setIsSignedUp: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ISet {
-  setIsSigedUp: Dispatch<SetStateAction<boolean>>;
+  setIsSignedUp: Dispatch<SetStateAction<boolean>>;
 }

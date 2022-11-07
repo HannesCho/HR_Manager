@@ -2,10 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 import bcrypt from "bcrypt";
-import signJWT from "../functions/signJWT";
+import signJWT from "../utils/signJWT";
 import config from "../config/config";
 import Employee from "../models/Employee";
 
+/** get all users from db */
 export const userList = async (
   req: Request,
   res: Response,
@@ -21,6 +22,7 @@ export const userList = async (
   }
 };
 
+/** create a new User */
 export const Signup = async (req: Request, res: Response) => {
   const {
     username,
@@ -101,6 +103,7 @@ export const Signup = async (req: Request, res: Response) => {
   }
 };
 
+/** log in a new User   */
 export const Login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
@@ -143,6 +146,7 @@ export const Login = async (req: Request, res: Response) => {
   }
 };
 
+/** get a User or Employee */
 export const userProfile = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id);
@@ -164,6 +168,7 @@ export const userProfile = async (req: Request, res: Response) => {
   }
 };
 
+/** update a User or Empolyee */
 export const editUser = async (req: Request, res: Response) => {
   const {
     username,
@@ -178,6 +183,7 @@ export const editUser = async (req: Request, res: Response) => {
     role,
   } = req.body;
 
+  // if this is a User, then update a User
   const userExists = await User.exists({ $or: [{ username }, { email }] });
   if (userExists) {
     if (!username || !firstName || !lastName || !email || !role) {
@@ -206,7 +212,7 @@ export const editUser = async (req: Request, res: Response) => {
       });
     }
   }
-
+  // if this is a Employee, then update a Employee
   const existsEmployee = await Employee.exists({ email });
   if (existsEmployee) {
     if (username) {
@@ -241,6 +247,7 @@ export const editUser = async (req: Request, res: Response) => {
   }
 };
 
+/** delete an User or an Employee */
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
@@ -265,6 +272,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 interface decodedJWT {
   username: string;
 }
+/** get a logged in User */
 export const loggedInUser = async (
   req: Request,
   res: Response,

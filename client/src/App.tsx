@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { UserContext, UserContextInterface } from "./context/UserContext";
 import { getCurrentUser } from "./services/auth.service";
@@ -20,7 +14,7 @@ import Profile from "./pages/Profile";
 
 const App = () => {
   const [user, setUser] = useState<IUser | null>(null);
-  const [isSigedUp, setIsSigedUp] = useState(false);
+  const [isSignedUp, setIsSignedUp] = useState(false);
 
   const setCurrentUser = useCallback(async () => {
     try {
@@ -55,12 +49,12 @@ const App = () => {
             <Route
               path="/login"
               element={
-                <Login setIsSigedUp={setIsSigedUp} isSigedUp={isSigedUp} />
+                <Login setIsSignedUp={setIsSignedUp} isSignedUp={isSignedUp} />
               }
             />
             <Route
               path="/signup"
-              element={<Signup setIsSigedUp={setIsSigedUp} />}
+              element={<Signup setIsSignedUp={setIsSignedUp} />}
             />
           </Routes>
         </BrowserRouter>

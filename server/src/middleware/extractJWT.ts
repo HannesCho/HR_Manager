@@ -9,6 +9,7 @@ export interface decodedInterface extends JwtPayload {
   username: string | JwtPayload;
 }
 
+/** verify jwt token */
 const extractJWT = async (req: Request, res: Response, next: NextFunction) => {
   let token = req.headers.authorization?.split(" ")[1];
 

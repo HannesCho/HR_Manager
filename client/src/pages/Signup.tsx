@@ -3,7 +3,7 @@ import { createUser } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { ISet } from "../types/props.type";
 
-const Signup = ({ setIsSigedUp }: ISet) => {
+const Signup = ({ setIsSignedUp }: ISet) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -40,7 +40,7 @@ const Signup = ({ setIsSigedUp }: ISet) => {
         setErrorMessage(createdUser);
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       } else {
-        setIsSigedUp(true);
+        setIsSignedUp(true);
         navigate("/");
       }
     } catch (error) {

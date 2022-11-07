@@ -3,6 +3,7 @@ import { IEmployee } from "../types/model.type";
 
 export interface IEmployeeModel extends IEmployee, Document {}
 
+//Employee doesn't have username and password
 const EmployeeSchema: Schema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },

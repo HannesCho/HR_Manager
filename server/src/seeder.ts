@@ -13,6 +13,7 @@ const handleError = (error?: Error) => console.log("❌ DB Error", error);
 db.on("error", handleError);
 db.once("open", handleOpen);
 
+/** seed fake data to db */
 const seed = async () => {
   for (let i = 0; i < 10; i++) {
     const user = new User({

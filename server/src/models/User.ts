@@ -3,6 +3,7 @@ import { IUser } from "../types/model.type";
 
 export interface IUserModel extends IUser, Document {}
 
+// User can login and add and edit Users and Employees
 const UserSchema: Schema = new Schema({
   username: { type: String, required: true, unique: true },
   firstName: { type: String, required: true },

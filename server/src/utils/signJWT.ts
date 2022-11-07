@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import config from "../config/config";
 import { IUser } from "../types/model.type";
 
+// set a jwt token for logged in User
 const signJWT = (
   user: IUser,
   callback: (error: Error | null, token: string | null) => void
