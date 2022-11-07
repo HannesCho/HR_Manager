@@ -53,6 +53,7 @@ export const Signup = async (req: Request, res: Response) => {
       .status(403)
       .json({ errorMessage: "Please Check required fields" });
   }
+  // Validate the email
   if (!ValidateEmail(email)) {
     return res.status(403).json({ errorMessage: "Invalid email address." });
   }
@@ -62,21 +63,21 @@ export const Signup = async (req: Request, res: Response) => {
       .status(403)
       .json({ errorMessage: "Password confirmation does not match." });
   }
-
+  // check if there is a user with same username
   const usernameExists = await User.exists({ username });
   if (usernameExists) {
     return res.status(403).json({
       errorMessage: "This username is already taken.",
     });
   }
-
+  // check if there is a user with same email
   const emailExists = await User.exists({ email });
   if (emailExists) {
     return res.status(403).json({
       errorMessage: "This email is already taken.",
     });
   }
-
+  // check if there is a employee with same email
   const existsEmployee = await Employee.exists({ email });
   if (existsEmployee) {
     return res.status(403).json({
@@ -187,6 +188,11 @@ export const editUser = async (req: Request, res: Response) => {
     country,
     role,
   } = req.body;
+
+  // Validate the email
+  if (!ValidateEmail(email)) {
+    return res.status(403).json({ errorMessage: "Invalid email address." });
+  }
 
   // if this is a User, then update a User
   const userExists = await User.exists({ $or: [{ username }, { email }] });

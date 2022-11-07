@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/User";
 import Employee from "../models/Employee";
+import ValidateEmail from "../utils/emailValidation";
 
 //** get all employees from db */
 export const employeeList = async (req: Request, res: Response) => {
@@ -60,6 +61,18 @@ export const signupEmployee = async (req: Request, res: Response) => {
       country,
       role,
     });
+    // Validate the email
+    if (!ValidateEmail(email)) {
+      return res.status(403).json({ errorMessage: "Invalid email address." });
+    }
+    // check if there is a employee with same email
+    const existsEmployee = await Employee.exists({ email });
+    if (existsEmployee) {
+      return res.status(403).json({
+        errorMessage: "This email is already taken.",
+      });
+    }
+
     res.status(200).json({ createdEmployee });
   } catch (error) {
     return res.status(400).json({
