@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import signJWT from "../utils/signJWT";
 import config from "../config/config";
 import Employee from "../models/Employee";
+import ValidateEmail from "../utils/emailValidation";
 
 /** get all users from db */
 export const userList = async (
@@ -38,6 +39,7 @@ export const Signup = async (req: Request, res: Response) => {
     country,
     role,
   } = req.body;
+  // check all the required fields
   if (
     !username ||
     !password ||
@@ -50,6 +52,9 @@ export const Signup = async (req: Request, res: Response) => {
     return res
       .status(403)
       .json({ errorMessage: "Please Check required fields" });
+  }
+  if (!ValidateEmail(email)) {
+    return res.status(403).json({ errorMessage: "Invalid email address." });
   }
 
   if (password !== password2) {
