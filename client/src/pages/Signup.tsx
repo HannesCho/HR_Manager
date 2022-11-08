@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createUser } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { ISet } from "../types/props.type";
+import ValidateEmail from "../utils/emailValidation";
 
 const Signup = ({ setIsSignedUp }: ISet) => {
   const [username, setUsername] = useState("");
@@ -17,7 +18,10 @@ const Signup = ({ setIsSignedUp }: ISet) => {
   const [country, setCountry] = useState("");
   const [role, setRole] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
   const navigate = useNavigate();
+  const ref = useRef(null);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -47,6 +51,17 @@ const Signup = ({ setIsSignedUp }: ISet) => {
       console.log(error);
     }
   };
+
+  //validate Email
+  useEffect(() => {
+    if (document.activeElement === ref.current) {
+      const validEmail = ValidateEmail(email);
+      setIsEmailValid(validEmail);
+      setIsFocus(true);
+    } else {
+      setIsFocus(false);
+    }
+  }, [email, isFocus]);
 
   return (
     <div className="flex items-center justify-center p-12">
@@ -120,15 +135,40 @@ const Signup = ({ setIsSignedUp }: ISet) => {
           >
             Email*
           </label>
-          <input
-            className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setEmail(e.currentTarget.value)
-            }
-          />
+          {!isEmailValid && isFocus ? (
+            <>
+              <input
+                ref={ref}
+                className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-red-500 focus:shadow-md"
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                  setEmail(e.currentTarget.value)
+                }
+              />
+              <div
+                className="mb-3 bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3"
+                role="alert"
+              >
+                <p className="font-bold">Invalid Email</p>
+                <p className="text-sm">Please use valid Email</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <input
+                ref={ref}
+                className="w-full mb-5 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#60a5fa] focus:shadow-md"
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                  setEmail(e.currentTarget.value)
+                }
+              />
+            </>
+          )}
           <br></br>
           <label
             className="mb-3 block text-base font-medium text-[#07074D]"

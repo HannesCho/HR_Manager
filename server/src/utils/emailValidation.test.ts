@@ -4,5 +4,8 @@ test("test validateEmail function", () => {
   expect(validateEmail("123")).toBe(false);
 });
 test("test validateEmail function", () => {
+  expect(validateEmail("username")).toBe(false);
+});
+test("test validateEmail function", () => {
   expect(validateEmail("myemail@gmail.com")).toBe(true);
 });

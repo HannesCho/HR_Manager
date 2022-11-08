@@ -106,33 +106,39 @@ const Profile = () => {
   return (
     <>
       <div className="p-10 h-auto w-screen flex flex-col items-center bg-gray-100">
-        <h3 className="text-3xl font-bold mb-5">
+        <h3 className="truncate text-3xl font-bold mb-5 max-w-[550px]">
           Profile of {profileUser?.firstName} {profileUser?.lastName}
         </h3>
         <div className="mx-auto w-full max-w-[550px] h-auto rounded-xl bg-white shadow-lg">
           <div className="flex flex-col">
-            <div className="flex p-5">
-              <div className="grid grid-rows-6 mr-5 w-auto">
-                <div className="text-sm font-bold ">User Name</div>
+            <div className="grid grid-cols-4 p-5">
+              <div className="grid grid-rows-6 mr-5 min-w-min">
+                <div className="text-sm font-bold">User Name</div>
                 <div className="text-sm font-bold">Full Name</div>
                 <div className="text-sm font-bold">Email</div>
                 <div className="text-sm font-bold row-span-2">Address</div>
                 <div className="text-sm font-bold">Role</div>
               </div>
-              <div className="grid grid-rows-6">
-                <div>{profileUser?.username}</div>
-                <div>
-                  {profileUser?.firstName} {profileUser?.lastName}
-                </div>
-                <div>{profileUser?.email}</div>
-                <div>
-                  {profileUser?.housenumber}, {profileUser?.street}
-                </div>
-                <div>
-                  {profileUser?.zipcode}, {profileUser?.city},{" "}
-                  {profileUser?.country}
-                </div>
-                <div>{profileUser?.role}</div>
+              <div className="grid grid-rows-6 col-span-3">
+                {profileUser ? (
+                  <>
+                    <div className="truncate">{profileUser?.username}</div>
+                    <div className="truncate">
+                      {profileUser?.firstName} {profileUser?.lastName}
+                    </div>
+                    <div className="truncate">{profileUser?.email}</div>
+                    <div className="truncate">
+                      {profileUser?.housenumber}, {profileUser?.street}
+                    </div>
+                    <div className="truncate">
+                      {profileUser?.zipcode + ","} {profileUser?.city + ","}{" "}
+                      {profileUser?.country}
+                    </div>
+                    <div className="truncate">{profileUser?.role}</div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
             <div className="flex flex-row items-center justify-center">
@@ -168,7 +174,8 @@ const Profile = () => {
                         {comment.author}
                       </div>
                       <div className="text-sm text-gray-500">
-                        {comment.createdAt.split("T")[0]}
+                        {comment.createdAt.split("T")[0]}{" "}
+                        {comment.createdAt.split("T")[1].substring(0, 5)}
                       </div>
                     </div>
                   </div>

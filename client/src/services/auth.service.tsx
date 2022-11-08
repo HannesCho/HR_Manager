@@ -68,8 +68,7 @@ export const login = async (username: string, password: string) => {
       }
     );
     if (data) {
-      console.log(data);
-      localStorage.setItem("accessTocken", data.token);
+      localStorage.setItem("accessToken", data.token);
     }
     return data.user;
   } catch (error) {
@@ -85,7 +84,7 @@ export const login = async (username: string, password: string) => {
 };
 
 export const logout = async () => {
-  localStorage.removeItem("accessTocken");
+  localStorage.removeItem("accessToken");
   localStorage.removeItem("user");
 };
 
