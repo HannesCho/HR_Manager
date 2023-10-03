@@ -19,7 +19,7 @@ app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", rootRouter);
+app.use("/api", rootRouter);
 app.use("/user", userRouter);
 app.use("/comment", commentRouter);
 app.use("/employee", employeeRouter);
