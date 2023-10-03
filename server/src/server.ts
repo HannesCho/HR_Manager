@@ -19,10 +19,10 @@ app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api", rootRouter);
-app.use("/api/user", userRouter);
-app.use("/api/comment", commentRouter);
-app.use("/api/employee", employeeRouter);
+app.use("/", rootRouter);
+app.use("/user", userRouter);
+app.use("/comment", commentRouter);
+app.use("/employee", employeeRouter);
 
 const handleListening = () =>
   console.log(
