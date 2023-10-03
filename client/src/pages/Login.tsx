@@ -34,6 +34,7 @@ const Login = ({ isSignedUp, setIsSignedUp }: IProps) => {
     <div className="p-10 h-screen w-screen flex flex-col-reverse md:flex-row items-center justify-center bg-gray-200">
       <div className="content basis-1/2 text-3xl text-center md:text-right">
         <h1 className="text-5xl text-blue-500 font-bold">HR Manager</h1>
+        
         <p>Please Login to use this App.</p>
       </div>
       <div className="container basis-1/2 flex flex-col items-center">
@@ -93,6 +94,7 @@ const Login = ({ isSignedUp, setIsSignedUp }: IProps) => {
         </form>
       </div>
     </div>
+    
   );
 };
 export default Login;
