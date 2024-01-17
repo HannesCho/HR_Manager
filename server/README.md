@@ -1,6 +1,6 @@
 # HR_Manager
 
-an employee management application for Badumts GmbH
+an employee management application
 
 ---
 
